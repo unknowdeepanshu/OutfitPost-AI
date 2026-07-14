@@ -1,0 +1,17 @@
+{
+  "name": "ai-agent",
+  "version": "1.0.0",
+  "description": "This is make Ai agent pipline and youCam api image add",
+  "license": "ISC",
+  "author": "Dipanshu",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  }
+}
