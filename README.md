@@ -1,0 +1,1 @@
+This is OutfitPost-AI created by OutfitPost to help you generate outfit ideas and fashion inspiration using AI. With OutfitPost-AI, you can easily create stylish looks, discover new trends, and get personalized recommendations based on your preferences. Whether you're looking for casual wear, formal attire, or seasonal outfits, OutfitPost-AI has got you covered!
