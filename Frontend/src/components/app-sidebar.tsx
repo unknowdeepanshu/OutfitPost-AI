@@ -24,6 +24,7 @@ import {
   MapIcon,
   TerminalIcon,
 } from "lucide-react";
+import { CreateProject } from "./ProjectDioalog/CreateProject";
 
 const data = {
   user: {
@@ -137,6 +138,7 @@ const data = {
     },
   ],
 };
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant="inset" {...props}>
@@ -156,6 +158,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        <CreateProject />
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
         {/* <ScrollAreaDemo /> */}

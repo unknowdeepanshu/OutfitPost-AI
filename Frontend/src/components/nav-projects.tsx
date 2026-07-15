@@ -17,7 +17,6 @@ import {
 import { MoreHorizontalIcon, Trash2Icon } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "./ui/button";
 
 interface NavProjects {
   projects: {
@@ -31,8 +30,6 @@ export function NavProjects({ projects }: NavProjects) {
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
-        <Button variant="default">Create projects</Button>
-
         <ScrollArea className="h-121 rounded-md border">
           {projects.map((item) => (
             <SidebarMenuItem key={item.name}>
