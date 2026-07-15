@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 
 import { NavMain } from "@/components/nav-main";
@@ -19,13 +17,11 @@ import {
   BotIcon,
   BookOpenIcon,
   Settings2Icon,
-  FrameIcon,
-  PieChartIcon,
-  MapIcon,
   TerminalIcon,
 } from "lucide-react";
 import { CreateProject } from "./ProjectDioalog/CreateProject";
-
+import { useSelector } from "react-redux";
+import type { RootState } from "@/Store/store";
 const data = {
   user: {
     name: "Dipanshu",
@@ -124,22 +120,22 @@ const data = {
     {
       name: "Design Engineering",
       url: "#",
-      icon: <FrameIcon />,
     },
     {
       name: "Sales & Marketing",
       url: "#",
-      icon: <PieChartIcon />,
     },
     {
       name: "Travel",
       url: "#",
-      icon: <MapIcon />,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const project = useSelector((state: RootState) => state.project);
+  console.log(project);
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -160,7 +156,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <CreateProject />
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={project} />
         {/* <ScrollAreaDemo /> */}
       </SidebarContent>
       <SidebarFooter>

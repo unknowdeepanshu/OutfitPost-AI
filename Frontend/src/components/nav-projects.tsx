@@ -17,24 +17,32 @@ import {
 import { MoreHorizontalIcon, Trash2Icon } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { DeleteProject } from "@/Store/projectCreate/projectSlice";
+import { useDispatch } from "react-redux";
+
+useDispatch;
 
 interface NavProjects {
   projects: {
-    name: string;
-    url: string;
+    ProjectName: string;
+    ProjectId: string;
   }[];
 }
 export function NavProjects({ projects }: NavProjects) {
+  const dispatch = useDispatch();
   const { isMobile } = useSidebar();
+  function handleDeleted(id: string) {
+    dispatch(DeleteProject(id));
+  }
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
-        <ScrollArea className="h-121 rounded-md border">
+        <ScrollArea className="h-121">
           {projects.map((item) => (
-            <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton render={<a href={item.url} />}>
-                <span>{item.name}</span>
+            <SidebarMenuItem key={item.ProjectName}>
+              <SidebarMenuButton render={<a href={item.ProjectId} />}>
+                <span>{item.ProjectName}</span>
               </SidebarMenuButton>
               <Separator className="my-0" />
               <DropdownMenu>
@@ -55,7 +63,11 @@ export function NavProjects({ projects }: NavProjects) {
                   align={isMobile ? "end" : "start"}
                 >
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      handleDeleted(item.ProjectId);
+                    }}
+                  >
                     <Trash2Icon className="text-muted-foreground" />
                     <span>Delete Project</span>
                   </DropdownMenuItem>
