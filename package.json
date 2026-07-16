@@ -1,5 +1,10 @@
 {
+  "scripts": {
+    "start": "npm --prefix Backend/gateway-service start",
+    "dev": "npm --prefix Backend/gateway-service run dev"
+  },
   "dependencies": {
-    "dotenv": "^17.4.2"
+    "express": "^5.2.1",
+    "mongoose": "^9.7.4"
   }
 }
