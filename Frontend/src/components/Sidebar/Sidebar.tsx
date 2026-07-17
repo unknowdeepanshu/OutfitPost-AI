@@ -2,10 +2,8 @@ import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -14,6 +12,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "../Darkmode/Toggle";
+import Conversion from "../Conversion/conversion";
 
 export default function Page() {
   return (
@@ -27,19 +26,6 @@ export default function Page() {
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Build Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
           </div>
 
           <div className="flex items-center gap-2 px-4">
@@ -54,13 +40,12 @@ export default function Page() {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-          </div>
-          <div className="bg-muted/50 min-h-screen flex-1 rounded-xl md:min-h-min" />
+        <div className="flex flex-1 flex-col gap-10 p-4 pt-0">
+          {/* <div className="grid flex-1 grid-cols-3 gap-4 md:grid-cols-3">
+            <div className="bg-muted/50 aspect-video h-full w-[stretch] rounded-xl" />
+            <div className="bg-muted/50 col-span-2 aspect-video h-full w-[stretch] rounded-xl" />
+          </div> */}
+          <Conversion />
         </div>
       </SidebarInset>
     </SidebarProvider>

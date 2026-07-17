@@ -1,14 +1,16 @@
 import Page from "./components/Sidebar/Sidebar";
+import { useTheme } from "./components/Darkmode/theme-provider";
 
-// import { Button } from "@/components/ui/button";
+import { Toaster } from "sonner";
 
 function App() {
+  const { theme } = useTheme();
+
   return (
-    // <div className="flex min-h-svh flex-col items-center justify-center">
-    //   <Button>Click me</Button>
-    // </div>
     <>
-      <Page />{" "}
+      <Page />
+
+      <Toaster theme={theme} />
     </>
   );
 }
