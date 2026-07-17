@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Catgory } from "@/Store/chatdata/chatSlice";
 import type { RootState } from "@/Store/store";
 
+import { toast } from "sonner";
+
 export function Chats({ className, ...props }: React.ComponentProps<"div">) {
   const chatjson = useSelector((state: RootState) => state.chatdata);
   console.log(chatjson);
@@ -93,21 +95,6 @@ export function Chats({ className, ...props }: React.ComponentProps<"div">) {
           </form>
         </CardContent>
       </Card>
-    </div>
-  );
-}
-
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-export function SonnerDemo() {
-  return (
-    <div className="flex flex-wrap gap-2">
-      <Button
-        variant="outline"
-        onClick={() => toast.error("Event has not been created")}
-      >
-        Error
-      </Button>
     </div>
   );
 }
