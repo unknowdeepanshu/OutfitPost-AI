@@ -41,7 +41,9 @@ export function NavProjects({ projects }: NavProjects) {
         <ScrollArea className="h-121">
           {projects.map((item) => (
             <SidebarMenuItem key={item.ProjectName}>
-              <SidebarMenuButton render={<Link to={item.ProjectId} />}>
+              <SidebarMenuButton
+                render={<Link to={`project/${item.ProjectId}`} />}
+              >
                 <span>{item.ProjectName}</span>
               </SidebarMenuButton>
               <Separator className="my-0" />

@@ -22,6 +22,8 @@ import {
 import { CreateProject } from "./ProjectDioalog/CreateProject";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/Store/store";
+import { Link } from "react-router";
+
 const data = {
   user: {
     name: "Dipanshu",
@@ -141,7 +143,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<a href="#" />}>
+            <SidebarMenuButton size="lg" render={<Link to="/" />}>
               <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                 <TerminalIcon className="size-4" />
               </div>
