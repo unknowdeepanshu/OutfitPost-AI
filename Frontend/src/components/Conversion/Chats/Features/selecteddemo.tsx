@@ -12,7 +12,7 @@ type ItemLabes = {
   value: string | null;
 };
 interface SelectDemo {
-  setCategory: (name: string) => void;
+  setCategory: (name: string | null) => void;
   items: ItemLabes[];
 }
 
@@ -30,7 +30,7 @@ export default function SelectDemo({ setCategory, items }: SelectDemo) {
               key={item.label}
               value={item.value}
               onClick={() => {
-                setCategory(item.label);
+                setCategory(item.value);
               }}
             >
               {item.label}

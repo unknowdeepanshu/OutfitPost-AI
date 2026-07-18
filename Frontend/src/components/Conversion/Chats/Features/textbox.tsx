@@ -18,7 +18,7 @@ export default function TextareaButton() {
     setText(checked);
     if (name.includes("text")) dispatch(addText(text));
   };
-  const getPlatform = (param: string) => {
+  const getPlatform = (param: string | null) => {
     dispatch(Platform(param));
   };
   const dscription = () => {

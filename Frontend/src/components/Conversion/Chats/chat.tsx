@@ -25,7 +25,7 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
   console.log(chatjson);
 
   const dispatch = useDispatch();
-  const getCatgory = (param: string) => {
+  const getCatgory = (param: string | null) => {
     dispatch(Catgory(param));
   };
 

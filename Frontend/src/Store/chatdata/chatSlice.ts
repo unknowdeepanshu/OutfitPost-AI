@@ -14,12 +14,12 @@ type Images = {
   AlBackgroundRemoval: boolean;
 };
 interface ChatData {
-  SelectedCatgory: string;
+  SelectedCatgory: string | null;
   FashionImage: Image;
   ModelImage: Image;
   Description: string;
   Textinclude: boolean;
-  SelectedPlatform: string;
+  SelectedPlatform: string | null;
 }
 
 const initialState: ChatData = {
@@ -35,10 +35,10 @@ export const ChatDataSlice = createSlice({
   name: "Chat data",
   initialState,
   reducers: {
-    Catgory: (state, action: PayloadAction<string>) => {
+    Catgory: (state, action: PayloadAction<string | null>) => {
       state.SelectedCatgory = action.payload;
     },
-    Platform: (state, action: PayloadAction<string>) => {
+    Platform: (state, action: PayloadAction<string | null>) => {
       state.SelectedPlatform = action.payload;
     },
     Imagejson: (state, action: PayloadAction<Images>) => {
