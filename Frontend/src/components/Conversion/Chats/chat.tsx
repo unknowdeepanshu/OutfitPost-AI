@@ -70,7 +70,14 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
   const { threadId } = useParams();
   const project = useSelector((state: RootState) => state.project);
   const title = project.filter((e) => e.ProjectId === threadId)[0].ProjectName;
-
+  const items = [
+    { label: "Select a Fashion", value: null },
+    { label: "Clothes", value: "Clothes" },
+    { label: "Bag", value: "Bag" },
+    { label: "Hat", value: "Hat" },
+    { label: "Scarf", value: "Scarf" },
+    { label: "Shoes", value: "Shoes" },
+  ];
   console.log("this is thread id", threadId);
   return (
     <div className={cn("flex flex-1 flex-col gap-6", className)} {...props}>
@@ -95,7 +102,7 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
             <FieldGroup>
               <Field>
                 <FieldLabel>Select a Category</FieldLabel>
-                <SelectDemo setCategory={getCatgory} />
+                <SelectDemo setCategory={getCatgory} items={items} />
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card"></FieldSeparator>
               <Field>

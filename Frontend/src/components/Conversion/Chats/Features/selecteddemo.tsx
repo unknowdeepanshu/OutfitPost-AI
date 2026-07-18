@@ -7,19 +7,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+type ItemLabes = {
+  label: string;
+  value: string | null;
+};
 interface SelectDemo {
   setCategory: (name: string) => void;
+  items: ItemLabes[];
 }
 
-export default function SelectDemo({ setCategory }: SelectDemo) {
-  const items = [
-    { label: "Select a Fashion", value: null },
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-    { label: "Blueberry", value: "blueberry" },
-    { label: "Grapes", value: "grapes" },
-    { label: "Pineapple", value: "pineapple" },
-  ];
+export default function SelectDemo({ setCategory, items }: SelectDemo) {
   return (
     <Select items={items}>
       <SelectTrigger className="w-full">

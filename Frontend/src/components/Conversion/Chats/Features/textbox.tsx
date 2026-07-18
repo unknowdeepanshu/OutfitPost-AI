@@ -25,6 +25,14 @@ export default function TextareaButton() {
     dispatch(addDescribe(describe));
     // console.log("this describe", describe);
   };
+  const items = [
+    { label: "Select a platform", value: null },
+    { label: "Instgram Feed", value: "Instgram Feed size (4:5)" },
+    { label: "Instagram Story", value: "Instagram Story size (9:16)" },
+    { label: "Facebook Post", value: "Facebook Post size (1:1)" },
+    { label: "LinkedIn Post", value: "LinkedIn Post size (1:1)" },
+    { label: "X (Twitter) Post", value: "X (Twitter) Post size (16:9)" },
+  ];
   return (
     <>
       <div className="flex w-full flex-col gap-4">
@@ -40,7 +48,7 @@ export default function TextareaButton() {
             </FieldLabel>
           </Field>
         </FieldGroup>
-        <SelectDemo setCategory={getPlatform} />
+        <SelectDemo setCategory={getPlatform} items={items} />
         <Button onClick={dscription} type="submit">
           Send message
         </Button>
