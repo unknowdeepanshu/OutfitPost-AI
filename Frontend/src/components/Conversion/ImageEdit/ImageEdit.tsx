@@ -6,28 +6,20 @@ import {
   FieldLabel,
   FieldSeparator,
 } from "@/components/ui/field";
-import { SelectDemo, ImageUpload, TextareaButton } from "./Features";
-import { useDispatch, useSelector } from "react-redux";
-import { Catgory } from "@/Store/chatdata/chatSlice";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useSelector } from "react-redux";
 import type { RootState } from "@/Store/store";
 import { useParams } from "react-router";
 import { toast } from "sonner";
-
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface Chats extends React.ComponentProps<"div"> {
+interface ImageEdit extends React.ComponentProps<"div"> {
   ShowImage: (name: boolean) => void;
 }
 
-export function Chats({ ShowImage, className, ...props }: Chats) {
+export function ImageEdit({ ShowImage, className, ...props }: ImageEdit) {
   const chatjson = useSelector((state: RootState) => state.chatdata);
   console.log(chatjson);
-
-  const dispatch = useDispatch();
-  const getCatgory = (param: string) => {
-    dispatch(Catgory(param));
-  };
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -94,26 +86,12 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
           <form onSubmit={handleSubmit}>
             <FieldGroup>
               <Field>
-                <FieldLabel>Select a Category</FieldLabel>
-                <SelectDemo setCategory={getCatgory} />
+                <FieldLabel>Image Edit</FieldLabel>
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card"></FieldSeparator>
               <Field>
-                <FieldLabel>Upload Images</FieldLabel>
-                <div className="my-2 flex flex-col justify-around gap-2 2xl:flex-row">
-                  <ImageUpload
-                    Title="Fashion Image"
-                    Description="Upload your fashion product."
-                  />
-                  <ImageUpload
-                    Title="Model Image"
-                    Description="Upload your model photo."
-                  />
-                </div>
-              </Field>
-              <Field>
-                <FieldLabel>Describe your product</FieldLabel>
-                <TextareaButton />
+                <FieldLabel>Update Images</FieldLabel>
+                <div className="my-2 flex flex-col justify-around gap-2 2xl:flex-row"></div>
               </Field>
             </FieldGroup>
           </form>
