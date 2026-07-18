@@ -10,7 +10,7 @@ import { SelectDemo, ImageUpload, TextareaButton } from "./Features";
 import { useDispatch, useSelector } from "react-redux";
 import { Catgory } from "@/Store/chatdata/chatSlice";
 import type { RootState } from "@/Store/store";
-
+import { useParams } from "react-router";
 import { toast } from "sonner";
 
 export function Chats({ className, ...props }: React.ComponentProps<"div">) {
@@ -60,11 +60,16 @@ export function Chats({ className, ...props }: React.ComponentProps<"div">) {
       return;
     }
   };
+  const { threadId } = useParams();
+  const project = useSelector((state: RootState) => state.project);
+  const title = project.filter((e) => e.ProjectId === threadId)[0].ProjectName;
+
+  console.log("this is thread id", threadId);
   return (
     <div className={cn("flex flex-1 flex-col gap-6", className)} {...props}>
       <Card className="flex-1">
         <CardHeader className="text-center">
-          <CardTitle className="text-left text-xl">Welcome back</CardTitle>
+          <CardTitle className="text-left text-xl">{title}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>

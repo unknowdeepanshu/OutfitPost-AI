@@ -19,8 +19,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { DeleteProject } from "@/Store/projectCreate/projectSlice";
 import { useDispatch } from "react-redux";
-
-useDispatch;
+import { Link } from "react-router";
 
 interface NavProjects {
   projects: {
@@ -34,6 +33,7 @@ export function NavProjects({ projects }: NavProjects) {
   function handleDeleted(id: string) {
     dispatch(DeleteProject(id));
   }
+
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
@@ -41,7 +41,7 @@ export function NavProjects({ projects }: NavProjects) {
         <ScrollArea className="h-121">
           {projects.map((item) => (
             <SidebarMenuItem key={item.ProjectName}>
-              <SidebarMenuButton render={<a href={item.ProjectId} />}>
+              <SidebarMenuButton render={<Link to={item.ProjectId} />}>
                 <span>{item.ProjectName}</span>
               </SidebarMenuButton>
               <Separator className="my-0" />

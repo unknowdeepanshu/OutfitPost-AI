@@ -1,6 +1,5 @@
 import Page from "./components/Sidebar/Sidebar";
 import { useTheme } from "./components/Darkmode/theme-provider";
-
 import { Toaster } from "sonner";
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
   return (
     <>
       <Page />
-
       <Toaster theme={theme} />
     </>
   );
