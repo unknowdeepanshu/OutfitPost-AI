@@ -18,6 +18,8 @@ import { useDispatch } from "react-redux";
 import { AlertCircleIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+import { SidebarGroup } from "@/components/ui/sidebar";
+
 export function CreateProject() {
   const dispatch = useDispatch();
   const [project, setProject] = useState(" ");
@@ -35,51 +37,54 @@ export function CreateProject() {
     }
   };
   return (
-    <Dialog>
-      <DialogTrigger
-        render={
-          <Button variant="default" className="w-full">
-            Create project
-          </Button>
-        }
-      />
-      <DialogContent className="sm:max-w-sm">
-        <form className="flex flex-col gap-4" onSubmit={handleProject}>
-          <DialogHeader>
-            <DialogTitle>New Project</DialogTitle>
-            <DialogDescription>
-              Create a new project to generate AI-powered social media posters.
-            </DialogDescription>
-          </DialogHeader>
-          <FieldGroup>
-            <Field>
-              <Label htmlFor="name-1">Project Name</Label>
-              <Input
-                id="name-1"
-                name="name"
-                value={project}
-                placeholder="Enter project name"
-                onChange={(e) => setProject(e.target.value)}
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+      <Dialog>
+        <DialogTrigger
+          render={
+            <Button variant="default" className="w-full">
+              Create project
+            </Button>
+          }
+        />
+        <DialogContent className="sm:max-w-sm">
+          <form className="flex flex-col gap-4" onSubmit={handleProject}>
+            <DialogHeader>
+              <DialogTitle>New Project</DialogTitle>
+              <DialogDescription>
+                Create a new project to generate AI-powered social media
+                posters.
+              </DialogDescription>
+            </DialogHeader>
+            <FieldGroup>
+              <Field>
+                <Label htmlFor="name-1">Project Name</Label>
+                <Input
+                  id="name-1"
+                  name="name"
+                  value={project}
+                  placeholder="Enter project name"
+                  onChange={(e) => setProject(e.target.value)}
+                />
+              </Field>
+              {Empty ? <AlertDestructive /> : null}
+            </FieldGroup>
+            <DialogFooter>
+              <DialogClose
+                render={<Button variant="outline">Cancel</Button>}
+                asChild
               />
-            </Field>
-            {Empty ? <AlertDestructive /> : null}
-          </FieldGroup>
-          <DialogFooter>
-            <DialogClose
-              render={<Button variant="outline">Cancel</Button>}
-              asChild
-            />
-            {!Empty ? (
-              <Button type="submit">Create project</Button>
-            ) : (
-              <DialogClose>
+              {!Empty ? (
                 <Button type="submit">Create project</Button>
-              </DialogClose>
-            )}
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+              ) : (
+                <DialogClose>
+                  <Button type="submit">Create project</Button>
+                </DialogClose>
+              )}
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </SidebarGroup>
   );
 }
 
