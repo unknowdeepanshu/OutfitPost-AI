@@ -36,11 +36,13 @@ export function CreateProject() {
   };
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="default" className="w-full">
-          Create Project
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button variant="default" className="w-full">
+            Create project
+          </Button>
+        }
+      />
       <DialogContent className="sm:max-w-sm">
         <form className="flex flex-col gap-4" onSubmit={handleProject}>
           <DialogHeader>
