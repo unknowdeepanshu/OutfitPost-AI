@@ -28,6 +28,7 @@ const State = new StateSchema({
   messages: MessagesValue,
 });
 
+// this is for vison model get image data
 const vision: GraphNode<typeof State> = async (state) => {
   console.log("Vison runing");
   const user = state.messages[0]?.content[0]?.text;
@@ -36,7 +37,7 @@ const vision: GraphNode<typeof State> = async (state) => {
   const Response = await modelImage.invoke(messgae);
   return { messages: Response.content };
 };
-
+// this is for make post for social media
 const director: GraphNode<typeof State> = async (state) => {
   console.log("Director runing");
   const user = state.messages[1]?.content;
@@ -44,14 +45,16 @@ const director: GraphNode<typeof State> = async (state) => {
   const Response = await modelText.invoke(messgae);
   return { messages: Response.content };
 };
-const valdiationWords: GraphNode<typeof State> = async (state) => {
+// check for the Validation of character like less than 800 character
+const valdiationCharacter: GraphNode<typeof State> = async (state) => {
   console.log("Validation checker");
   const user = state.messages[2]?.content;
   const messgae = Validation({ userPromt: user });
   const Response = await modelText.invoke(messgae);
   return { messages: Response.content };
 };
-const checkWordCount = async (state: any) => {
+// this is
+const checkCharacterCount = async (state: any) => {
   // Get text from the last message
   const lastMessage = state.messages.at(-1);
   const text = (await JSON.parse(lastMessage?.content)) || "";
@@ -65,41 +68,41 @@ const checkWordCount = async (state: any) => {
 const graph = new StateGraph(State)
   .addNode("VisonTotext", vision)
   .addNode("Director", director)
-  .addNode("Validation", valdiationWords)
+  .addNode("Validation", valdiationCharacter)
 
   .addEdge(START, "VisonTotext")
   .addEdge("VisonTotext", "Director")
   .addEdge("Director", "Validation")
-  .addConditionalEdges("Validation", checkWordCount, {
+  .addConditionalEdges("Validation", checkCharacterCount, {
     continueNode: END,
     validationFailNode: "Validation",
   })
   .compile();
-const humanMessage = {
-  messages: [
-    new HumanMessage({
-      content: [
-        {
-          type: "text",
-          text: `{
-  SelectedCatgory: "cloths";
-  SelectedPlatform: " Instagram Story (9:16)";
-  FashionImage: { url: " ", AlBackgroundRemoval: false, AlEnhance: false },
-  ModelImage: { url: " ", AlBackgroundRemoval: false, AlEnhance: false },
-  Description: " ",
-  Textinclude: false,
-};
-`,
-        },
-        {
-          type: "image",
-          url: `https://images.pexels.com/photos/38642209/pexels-photo-38642209.jpeg?_gl=1*1nrpvti*_gcl_au*MTkyODU1ODYzMi4xNzgzODY2Mjgx*_ga*MTYxMTk3ODA2MC4xNzgxOTQ4MDMz*_ga_8JE65Q40S6*czE3ODQ0Nzg3NjIkbzM0JGcxJHQxNzg0NDc5MDgzJGozOCRsMCRoMA..`,
-        },
-      ],
-    }),
-  ],
-};
 
-const response = await graph.invoke(humanMessage);
+interface AgentCalled {
+  userData: string;
+  ImageUrl: string;
+}
+async function AgentCalled({ userData, ImageUrl }: AgentCalled) {
+  const humanMessage = {
+    messages: [
+      new HumanMessage({
+        content: [
+          {
+            type: "text",
+            text: `${userData}`,
+          },
+          {
+            type: "image",
+            url: `${ImageUrl}`,
+          },
+        ],
+      }),
+    ],
+  };
 
-console.log(response);
+  const response = await graph.invoke(humanMessage);
+
+  return response;
+}
+export { AgentCalled };
