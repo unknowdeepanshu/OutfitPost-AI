@@ -17,6 +17,7 @@ interface ChatData {
   SelectedCatgory: string | null;
   FashionImage: Image;
   ModelImage: Image;
+  gender: string | null;
   Description: string;
   Textinclude: boolean;
   SelectedPlatform: string | null;
@@ -27,6 +28,7 @@ const initialState: ChatData = {
   SelectedPlatform: " ",
   FashionImage: { url: " ", AlBackgroundRemoval: false, AlEnhance: false },
   ModelImage: { url: " ", AlBackgroundRemoval: false, AlEnhance: false },
+  gender: " ",
   Description: " ",
   Textinclude: false,
 };
@@ -62,8 +64,11 @@ export const ChatDataSlice = createSlice({
     addDescribe: (state, action: PayloadAction<string>) => {
       state.Description = action.payload;
     },
+    addGender: (state, action: PayloadAction<string | null>) => {
+      state.gender = action.payload;
+    },
   },
 });
-export const { addDescribe, Catgory, Platform, Imagejson, addText } =
+export const { addDescribe, Catgory, Platform, addGender, Imagejson, addText } =
   ChatDataSlice.actions;
 export default ChatDataSlice.reducer;

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/field";
 import { SelectDemo, ImageUpload, TextareaButton } from "./Features";
 import { useDispatch, useSelector } from "react-redux";
-import { Catgory } from "@/Store/chatdata/chatSlice";
+import { Catgory, addGender } from "@/Store/chatdata/chatSlice";
 import type { RootState } from "@/Store/store";
 import { useParams } from "react-router";
 import { toast } from "sonner";
@@ -28,7 +28,9 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
   const getCatgory = (param: string | null) => {
     dispatch(Catgory(param));
   };
-
+  const getGender = (param: string | null) => {
+    dispatch(addGender(param));
+  };
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
 
@@ -43,6 +45,10 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
 
     if ((chatjson.SelectedCatgory ?? "").toString().trim().length === 0) {
       toast.error("choose the catgory");
+      return;
+    }
+    if ((chatjson.gender ?? "").toString().trim().length === 0) {
+      toast.error("choose the Gender");
       return;
     }
 
@@ -77,6 +83,11 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
     { label: "Hat", value: "Hat" },
     { label: "Scarf", value: "Scarf" },
     { label: "Shoes", value: "Shoes" },
+  ];
+  const Gender = [
+    { label: "Select a Gender model", value: null },
+    { label: "Female", value: "Female" },
+    { label: "Male", value: "Male" },
   ];
   console.log("this is thread id", threadId);
   return (
@@ -117,6 +128,8 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
                     Description="Upload your model photo."
                   />
                 </div>
+
+                <SelectDemo setCategory={getGender} items={Gender} />
               </Field>
               <Field>
                 <FieldLabel>Describe your product</FieldLabel>
