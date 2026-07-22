@@ -238,9 +238,8 @@ Reserve clean negative space.
 
 Return JSON only.
 {
-Image prompt:"",
-Negative prompt:"",
-Imageurl:""
+ImagePrompt:"",
+NegativePrompt:"",
 }
 `;
 }

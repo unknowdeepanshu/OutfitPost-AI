@@ -41,7 +41,7 @@ const vision: GraphNode<typeof State> = async (state) => {
 const director: GraphNode<typeof State> = async (state) => {
   console.log("Director runing");
   const user = state.messages[1]?.content;
-  const messgae = TextToImage({ userPromt: user });
+  const messgae = TextToImage({ userPromt: String(user) });
   const Response = await modelText.invoke(messgae);
   return { messages: Response.content };
 };
@@ -49,7 +49,7 @@ const director: GraphNode<typeof State> = async (state) => {
 const valdiationCharacter: GraphNode<typeof State> = async (state) => {
   console.log("Validation checker");
   const user = state.messages[2]?.content;
-  const messgae = Validation({ userPromt: user });
+  const messgae = Validation({ userPromt: String(user) });
   const Response = await modelText.invoke(messgae);
   return { messages: Response.content };
 };
@@ -57,8 +57,10 @@ const valdiationCharacter: GraphNode<typeof State> = async (state) => {
 const checkCharacterCount = async (state: any) => {
   // Get text from the last message
   const lastMessage = state.messages.at(-1);
+  console.log("this is lastmessage", lastMessage);
   const text = (await JSON.parse(lastMessage?.content)) || "";
-  const countCharacters = text["Image prompt"].trim().length;
+  console.log("this is text:-", text);
+  const countCharacters = text["ImagePrompt"].trim().length;
   console.log("lenght:-", countCharacters);
   if (countCharacters > 800) {
     return "validationFailNode";
