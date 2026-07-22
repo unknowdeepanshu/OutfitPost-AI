@@ -250,12 +250,11 @@ function ValidationSystem() {
 VALIDATION (MANDATORY)
 
 you get json with {
-Image prompt:"",
-Negative prompt:"",
-Imageurl:""
-} , perform these checks internally.
+ImagePrompt:"",
+NegativePrompt:"",
+}, perform these checks internally.
 
-1. Count the total number of words in "imagePrompt".
+1. Count the total number of words in "ImagePrompt".
 2. If the prompt contains more than 700 characters:
    - Rewrite it.
    - Remove repeated descriptions.
