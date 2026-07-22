@@ -11,7 +11,6 @@ interface payload {
   ref_file_url: string;
   gender: string;
 }
-
 async function GeneratedTaskId(payload: payload) {
   try {
     const BagMerge = await instance.post<CreateTaskResponse>("/bag", payload, {
@@ -86,7 +85,7 @@ async function WaitForMergeBag(taskId: string) {
       return response.data.results;
     }
 
-    if (response.data.task_status === "failed") {
+    if (response.data.task_status === "error") {
       throw new Error(response.data.error ?? "Image generation failed.");
     }
 
@@ -96,7 +95,7 @@ async function WaitForMergeBag(taskId: string) {
   throw new Error("Image generation timeout.");
 }
 
-export async function getMergeBagImageurl(payload: payload) {
+export default async function getMergeBagImageurl(payload: payload) {
   const task = await GeneratedTaskId(payload);
 
   const image = await WaitForMergeBag(task.data.task_id);
@@ -111,4 +110,4 @@ const data: payload = {
     "https://i.pinimg.com/736x/df/ba/9a/dfba9ae77c1a4ed80df7daf1330481ff.jpg",
   gender: "female",
 };
-console.log(await getMergeBagImageurl(data));
+// console.log(await getMergeBagImageurl(data));

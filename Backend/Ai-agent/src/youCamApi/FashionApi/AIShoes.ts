@@ -86,22 +86,21 @@ async function WaitForMergeShoes(taskId: string) {
 
   for (let i = 0; i < MAX_RETRIES; i++) {
     const response = await GeneratedMergeImage(taskId);
-    console;
     if (response.data.task_status === "success") {
       return response.data.results;
     }
 
-    if (response.data.task_status === "failed") {
+    if (response.data.task_status === "error") {
       throw new Error(response.data.error ?? "Image generation failed.");
     }
 
-    await sleep(2000);
+    await sleep(3000);
   }
 
   throw new Error("Image generation timeout.");
 }
 
-export async function getMergeShoesImageurl(payload: payload) {
+export default async function getMergeShoesImageurl(payload: payload) {
   const task = await GeneratedTaskId(payload);
   const image = await WaitForMergeShoes(task.data.task_id);
 
@@ -116,4 +115,4 @@ const data: payload = {
   gender: "male",
   style: "random",
 };
-console.log(await getMergeShoesImageurl(data));
+// console.log(await getMergeShoesImageurl(data));

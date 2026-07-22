@@ -13,14 +13,10 @@ interface payload {
   change_shoes: boolean;
 }
 
-// interface payload {
-//   src_file_url: string[];
-//   model: string;
-//   prompt: string;
-//   negative_prompt: string;
-//   size: string;
-//   prompt_extend: boolean;
-// }
+const defaultPayload = {
+  garment_category: "auto",
+  change_shoes: true,
+} as const;
 
 async function GeneratedTaskId(payload: payload) {
   try {
@@ -100,7 +96,7 @@ async function WaitForMergeCloths(taskId: string) {
       return response.data.results;
     }
 
-    if (response.data.task_status === "failed") {
+    if (response.data.task_status === "error") {
       throw new Error(response.data.error ?? "Image generation failed.");
     }
 
@@ -110,7 +106,7 @@ async function WaitForMergeCloths(taskId: string) {
   throw new Error("Image generation timeout.");
 }
 
-export async function getMergeclothsImageurl(payload: payload) {
+export default async function getMergeclothsImageurl(payload: payload) {
   const task = await GeneratedTaskId(payload);
 
   const image = await WaitForMergeCloths(task.data.task_id);
@@ -126,4 +122,4 @@ const data: payload = {
   garment_category: "auto",
   change_shoes: true,
 };
-console.log(await getMergeclothsImageurl(data));
+// console.log(await getMergeclothsImageurl(data));

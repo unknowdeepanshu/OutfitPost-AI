@@ -87,7 +87,7 @@ async function WaitForMergeHat(taskId: string) {
       return response.data.results;
     }
 
-    if (response.data.task_status === "failed") {
+    if (response.data.task_status === "error") {
       throw new Error(response.data.error ?? "Image generation failed.");
     }
 
@@ -97,7 +97,7 @@ async function WaitForMergeHat(taskId: string) {
   throw new Error("Image generation timeout.");
 }
 
-export async function getMergeHatImageurl(payload: payload) {
+export default async function getMergeHatImageurl(payload: payload) {
   const task = await GeneratedTaskId(payload);
 
   const image = await WaitForMergeHat(task.data.task_id);
@@ -113,4 +113,4 @@ const data: payload = {
   gender: "male",
   style: "random",
 };
-console.log(await getMergeHatImageurl(data));
+// console.log(await getMergeHatImageurl(data));

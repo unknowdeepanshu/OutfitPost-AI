@@ -91,7 +91,7 @@ async function WaitForMergescarf(taskId: string) {
       return response.data.results;
     }
 
-    if (response.data.task_status === "failed") {
+    if (response.data.task_status === "error") {
       throw new Error(response.data.error ?? "Image generation failed.");
     }
 
@@ -101,7 +101,7 @@ async function WaitForMergescarf(taskId: string) {
   throw new Error("Image generation timeout.");
 }
 
-export async function getMergescarfImageurl(payload: payload) {
+export default async function getMergescarfImageurl(payload: payload) {
   const task = await GeneratedTaskId(payload);
 
   const image = await WaitForMergescarf(task.data.task_id);
@@ -117,4 +117,4 @@ const data: payload = {
   gender: "female",
   style: "random",
 };
-console.log(await getMergescarfImageurl(data));
+// console.log(await getMergescarfImageurl(data));
