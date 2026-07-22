@@ -1,3 +1,4 @@
+import type { Mergedata } from "./../../type/GeneratedImage.ts";
 import { instance } from "../axios.ts";
 import axios from "axios";
 
@@ -119,11 +120,34 @@ async function WaitForImage(taskId: string) {
 //   prompt_extend: true,
 // };
 
-async function getImageurl(payload: payload) {
+async function GenerateImageurl(payload: payload) {
   const task = await GeneratedTaskId(payload);
 
   const image = await WaitForImage(task.data.task_id);
 
   return image;
 }
-export { getImageurl };
+interface PromptImage {
+  Image_prompt: string;
+  Negative_prompt: string;
+  mergeImages: string;
+  size: string;
+}
+async function PromptImage({
+  Image_prompt,
+  Negative_prompt,
+  mergeImages,
+  size,
+}: PromptImage) {
+  const payloadData: payload = {
+    src_file_urls: [mergeImages],
+    model: "youcam-image-v2",
+    prompt: Image_prompt,
+    negative_prompt: Negative_prompt,
+    size: size,
+    prompt_extend: true,
+  };
+  const Response = await GenerateImageurl(payloadData);
+  return Response;
+}
+export { PromptImage };

@@ -6,11 +6,18 @@ dotenv.config({
 });
 
 const instance = axios.create({
-  baseURL: "https://yce-api-01.makeupar.com/s2s/v2.0/task",
-  headers: { Authorization: `Bearer ${process.env.YOC_CAM_API}` },
+  baseURL: `${process.env.YOU_CAM_URL}`,
+  headers: { Authorization: `Bearer ${process.env.YOU_CAM_API}` },
 });
+const AddAgentImage = axios.create({
+  baseURL: `${process.env.ADD_AGENT}`,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 function run() {
-  console.log(`Bearer ${process.env.YOC_CAM_API}`);
+  console.log(`Bearer ${process.env.YOU_CAM_API}`);
 }
 run();
-export { instance };
+export { instance, AddAgentImage };
