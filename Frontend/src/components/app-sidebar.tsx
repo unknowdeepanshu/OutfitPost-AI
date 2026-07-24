@@ -23,120 +23,35 @@ import { CreateProject } from "./ProjectDioalog/CreateProject";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/Store/store";
 import { Link } from "react-router";
-
-const data = {
-  user: {
-    name: "Dipanshu",
-    email: "Dipanshu@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: <TerminalSquareIcon />,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: <BotIcon />,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: <BookOpenIcon />,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: <Settings2Icon />,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-    },
-    {
-      name: "Travel",
-      url: "#",
-    },
-  ],
-};
+import { useUser } from "@clerk/react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useUser();
+  const data = {
+    user: {
+      name: `${user?.fullName}`,
+      email: `${user?.emailAddresses}`,
+      avatar: `${user?.imageUrl}`,
+    },
+    navMain: [
+      {
+        title: "Dashboard",
+        url: "#",
+        icon: <TerminalSquareIcon />,
+        isActive: true,
+      },
+
+      {
+        title: "Settings",
+        url: "#",
+        icon: <Settings2Icon />,
+      },
+    ],
+  };
+
   const project = useSelector((state: RootState) => state.project);
   console.log(project);
+  console.log("this is user data:-", user);
 
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
