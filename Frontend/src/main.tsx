@@ -11,6 +11,7 @@ import Conversion from "@/components/Conversion/conversion.tsx";
 import Dashboard from "@/pages/Dashboard/Dashboard.tsx";
 import App from "@/pages/Landing/App.tsx";
 import ProtectRoutes from "@/components/ProtecteRoutes/ProtecteRoutes.tsx";
+import Setting from "./pages/setting/setting.tsx";
 
 const Route = createBrowserRouter([
   {
@@ -20,7 +21,10 @@ const Route = createBrowserRouter([
   {
     path: "/dashboard",
     element: <ProtectRoutes Children={<Dashboard />} />,
-    children: [{ path: "project/:threadId", element: <Conversion /> }],
+    children: [
+      { path: "project/:threadId", element: <Conversion /> },
+      { path: "Account", element: <Setting /> },
+    ],
   },
 ]);
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;

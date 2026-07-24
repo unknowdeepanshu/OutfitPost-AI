@@ -12,13 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  TerminalSquareIcon,
-  BotIcon,
-  BookOpenIcon,
-  Settings2Icon,
-  TerminalIcon,
-} from "lucide-react";
+import { TerminalSquareIcon, Settings2Icon, TerminalIcon } from "lucide-react";
 import { CreateProject } from "./ProjectDioalog/CreateProject";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/Store/store";
@@ -43,7 +37,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       {
         title: "Settings",
-        url: "#",
+        url: "/dashboard/Account",
         icon: <Settings2Icon />,
       },
     ],

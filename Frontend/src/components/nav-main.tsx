@@ -15,6 +15,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { ChevronRightIcon } from "lucide-react";
+import { Link } from "react-router";
 
 export function NavMain({
   items,
@@ -42,7 +43,7 @@ export function NavMain({
           >
             <SidebarMenuButton
               tooltip={item.title}
-              render={<a href={item.url} />}
+              render={<Link to={`${item.url}`} />}
             >
               {item.icon}
               <span>{item.title}</span>
