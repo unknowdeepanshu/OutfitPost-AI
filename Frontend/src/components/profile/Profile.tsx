@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label";
 import { useUser, UserAvatar } from "@clerk/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Separator } from "../ui/separator";
+
 export function Profile() {
   const [update, setUpdate] = useState(false);
   return (
@@ -111,18 +113,21 @@ function ProfileDetails({ show }: Updates) {
               </span>
             </div>
           </div>
+          <Separator />
           <div className="flex items-center gap-3">
             <div className="flex flex-1 justify-between text-left text-sm leading-tight">
               <span className="truncate font-medium">First name</span>
               <span className="truncate font-medium">{user?.firstName}</span>
             </div>
           </div>
+          <Separator />
           <div className="flex items-center gap-3">
             <div className="flex flex-1 justify-between text-left text-sm leading-tight">
               <span className="truncate font-medium">Last name</span>
               <span className="truncate font-medium">{user?.lastName}</span>
             </div>
           </div>
+          <Separator />
           <div className="flex items-center gap-3">
             <div className="flex flex-1 justify-between text-left text-sm leading-tight">
               <span className="truncate font-medium">Email</span>
@@ -131,6 +136,7 @@ function ProfileDetails({ show }: Updates) {
               </span>
             </div>
           </div>
+          <Separator />
         </div>
       </CardContent>
       <CardFooter className="justify-end gap-2">
