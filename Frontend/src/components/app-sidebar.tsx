@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { TerminalSquareIcon, Settings2Icon, TerminalIcon } from "lucide-react";
+import { TerminalSquareIcon, Settings2Icon } from "lucide-react";
 import { CreateProject } from "./ProjectDioalog/CreateProject";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/Store/store";

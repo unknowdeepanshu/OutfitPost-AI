@@ -71,7 +71,9 @@ export function NavProjects({ projects }: NavProjects) {
                     }}
                   >
                     <Trash2Icon className="text-muted-foreground" />
-                    <span>Delete Project</span>
+                    <span>
+                      <Link to="/dashboard">Delete Project</Link>
+                    </span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
