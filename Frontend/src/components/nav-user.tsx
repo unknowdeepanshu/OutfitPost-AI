@@ -24,6 +24,7 @@ import {
   CreditCardIcon,
   LogOutIcon,
 } from "lucide-react";
+import { Link } from "react-router";
 
 export function NavUser({
   user,
@@ -85,7 +86,7 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheckIcon />
-                Account
+                <Link to="/dashboard/Account">Account</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCardIcon />

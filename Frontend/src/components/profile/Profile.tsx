@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUser, UserAvatar } from "@clerk/react";
 import { useState } from "react";
-
+import { useForm } from "react-hook-form";
 export function Profile() {
   const [update, setUpdate] = useState(false);
   return (
@@ -32,19 +32,43 @@ interface Updates {
 }
 
 function Updateprofile({ show }: Updates) {
+  const { register, handleSubmit } = useForm();
+  const { user } = useUser();
+  const updateProfile = async (data: any) => {
+    console.log("data from", data);
+    try {
+      user?.update({
+        firstName: data.FirstName,
+        lastName: data.lastName,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
-      <form className="flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmit(updateProfile)}
+        className="flex flex-col gap-4"
+      >
         <CardContent>
           <div className="flex flex-col gap-6">
             <div className="flex gap-2">
               <div className="flex flex-1 flex-col gap-4">
                 <Label htmlFor="First name">First name</Label>
-                <Input type="text" placeholder="joe" required />
+                <Input
+                  type="text"
+                  defaultValue={`${user?.firstName}`}
+                  {...register("FirstName", { required: true })}
+                />
               </div>
               <div className="flex flex-1 flex-col gap-4">
                 <Label htmlFor="email">Last name</Label>
-                <Input type="text" placeholder="Last name" required />
+                <Input
+                  type="text"
+                  defaultValue={`${user?.lastName}`}
+                  {...register("LastName", { required: true })}
+                />
               </div>
             </div>
           </div>
@@ -52,7 +76,11 @@ function Updateprofile({ show }: Updates) {
             <div className="mt-4 flex gap-2">
               <div className="flex flex-1 flex-col gap-4">
                 <Label htmlFor="First name">Email</Label>
-                <Input type="text" placeholder="joe" required />
+                <Input
+                  type="Email"
+                  defaultValue={`${user?.emailAddresses[0]?.emailAddress}`}
+                  {...register("Email", { required: true })}
+                />
               </div>
             </div>
           </div>
@@ -61,7 +89,7 @@ function Updateprofile({ show }: Updates) {
           <Button variant="outline" onClick={() => show(false)}>
             Decline
           </Button>
-          <Button>Accept</Button>
+          <Button type="submit">Accept</Button>
         </CardFooter>
       </form>
     </>
@@ -70,7 +98,6 @@ function Updateprofile({ show }: Updates) {
 
 function ProfileDetails({ show }: Updates) {
   const { user } = useUser();
-  console.log("user", user);
   return (
     <>
       <CardContent>
