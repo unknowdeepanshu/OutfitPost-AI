@@ -28,3 +28,5 @@ const newUser = await new User.create({
 })
 
 })
+
+export { syncCurrentUser };

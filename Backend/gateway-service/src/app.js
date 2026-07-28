@@ -24,6 +24,8 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // Clerk middleware must come before protected routes
+console.log("Publishable:", process.env.CLERK_PUBLISHABLE_KEY);
+console.log("Secret:", process.env.CLERK_SECRET_KEY);
 app.use(clerkMiddleware());
 
 app.get("/health", (_req, res) => {

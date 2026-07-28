@@ -3,7 +3,7 @@ import { requireAuth, getAuth } from "@clerk/express";
 
 const router = Router();
 
-router.get("/me", requireAuth(), (req, res) => {
+router.get("/me", (req, res) => {
   const { userId, sessionClaims } = getAuth(req);
 
   res.status(200).json({
