@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { clerkMiddleware } from "@clerk/express";
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
+import conversationRouter from "./routes/conversation.routes.js";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.get("/health", (_req, res) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/conversations", conversationRouter);
 
 app.use((err, _req, res, _next) => {
   const statusCode = err.statusCode || 500;
