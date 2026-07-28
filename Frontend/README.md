@@ -1,3 +1,12 @@
+hey add the following to the README.md file in the Frontend directory:
+
+## Environment Variables
+
+```
+VITE_CLERK_PUBLISHABLE_KEY=add-your-clerk-publishable-key-here
+VITE_BACKEND_GATEWAY_API=http://localhost:8000
+```
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
