@@ -100,7 +100,7 @@ async function WaitForMergeCloths(taskId: string) {
       throw new Error(response.data.error ?? "Image generation failed.");
     }
 
-    await sleep(2000);
+    await sleep(3000);
   }
 
   throw new Error("Image generation timeout.");

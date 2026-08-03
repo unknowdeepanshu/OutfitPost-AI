@@ -35,14 +35,13 @@ const Addagent = asyncHandler(async (req: Request, res: Response) => {
   const { userData, mergeImages }: Mergedata = req.body;
   console.log(`this is userData ${userData} and mergeImage${mergeImages}`);
   const agentdata = await AgentCalled({
-    userData: String(userData),
+    userData: JSON.stringify(userData),
     ImageUrl: mergeImages,
   });
   const agentMessage: agentPrompt = JSON.parse(
     agentdata["messages"].at(-1)?.content,
   );
-  // console.log("this is agent:-", agentMessage);
-  // console.log("this is agent type of:-", typeof agentMessage);
+  console.log("this is image prompt", agentMessage);
   const postImage = await PromptImage({
     Image_prompt: agentMessage.ImagePrompt,
     Negative_prompt: agentMessage.NegativePrompt,
