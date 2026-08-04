@@ -13,6 +13,7 @@ import App from "@/pages/Landing/App.tsx";
 import ProtectRoutes from "@/components/ProtecteRoutes/ProtecteRoutes.tsx";
 import Setting from "@/pages/setting/setting.tsx";
 import Anylatic from "@/components/Anylatic/Anylatic.tsx";
+import Page404 from "@/pages/NoFound/Notfound.tsx";
 
 const Route = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const Route = createBrowserRouter([
       { path: "project/:threadId", element: <Conversion /> },
       { path: "Account", element: <Setting /> },
     ],
+  },
+  {
+    path: "*",
+    element: <Page404 />,
   },
 ]);
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
