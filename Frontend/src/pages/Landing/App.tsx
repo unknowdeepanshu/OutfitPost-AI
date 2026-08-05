@@ -1,14 +1,29 @@
+import Footer from "@/components/Footer/Footer";
 import HeaderNav from "@/components/Header/Header";
-import { HeroSection } from "@/components/Sections/heroSection";
+import {
+  Faq,
+  HeroSection,
+  HowItWorked,
+  SupportedFashion,
+} from "@/components/Sections";
+
 import { Link } from "react-router";
 
 function App() {
   return (
     <>
-      <div className="sm:max-w-2x1 mx-auto flex h-screen max-w-2/3 flex-col gap-4 md:max-w-2/3">
-        <HeaderNav />
-        <HeroSection />
-        <Link to={"/dashboard"}>this is landing pages</Link>
+      <div className="overflow-x-hidden">
+        <div className="mx-auto flex h-screen w-full max-w-6xl flex-col gap-4 px-4 sm:px-6 lg:px-8">
+          <HeaderNav />
+          <HeroSection />
+          <HowItWorked />
+          <SupportedFashion />
+          <Faq />
+          <Footer />
+          {/* <Link to={"/dashboard"} className="py-4">
+            this is landing pages
+          </Link> */}
+        </div>
       </div>
     </>
   );

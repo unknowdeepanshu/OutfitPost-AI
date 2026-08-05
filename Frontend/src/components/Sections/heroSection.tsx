@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 export function HeroSection() {
   return (
     <>
-      <div className="flex h-screen">
+      <div className="flex min-h-screen">
         <div className="flex w-full items-center justify-center">
           <div className="flex w-fit flex-col justify-center text-center">
             <p className="text-3xl md:line-clamp-2 md:text-4xl lg:text-6xl">

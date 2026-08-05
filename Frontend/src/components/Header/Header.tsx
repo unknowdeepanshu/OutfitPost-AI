@@ -19,7 +19,9 @@ function HeaderNav() {
       <header className="relative mt-2 flex max-h-1/12 items-center justify-between">
         <div className="flex h-full items-center gap-2">
           <img src="/OutfitPost_AI.png" className="h-full" alt="outfitpost" />
-          <span className="font-sans font-bold">OufitPost Ai</span>
+          <span className="font-sans font-bold">
+            Oufit<span className="text-chart-2">Post Ai</span>
+          </span>
         </div>
 
         <nav className="hidden h-full justify-center text-center lg:flex">
@@ -54,7 +56,7 @@ function HeaderNav() {
         </div>
         {open ? (
           <>
-            <nav className="bg-background absolute inset-y-1/10 bottom-1 flex h-fit w-[66%] flex-col justify-center gap-3 text-center lg:hidden">
+            <nav className="bg-background absolute inset-y-1/10 top-15 flex h-fit w-full flex-col justify-center gap-3 text-center lg:hidden">
               <ul className="flex flex-col items-center justify-center gap-5">
                 {NavLink.map((Nav, index) => (
                   <li key={index}>
