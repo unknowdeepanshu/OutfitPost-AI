@@ -1,5 +1,6 @@
-import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
+import { Show, SignUpButton } from "@clerk/react";
 import { Button } from "../ui/button";
+import { Link } from "react-router";
 
 export function HeroSection() {
   return (
@@ -20,26 +21,29 @@ export function HeroSection() {
               generate premium scoial media posters in seconds
             </p>
             <div className="mt-2 flex h-full items-center justify-center gap-2">
-              <Show when="signed-out">
-                <Button
-                  className="flex h-6 rounded-none md:h-8 lg:h-10"
-                  variant="default"
-                >
+              <Button
+                className="flex h-6 rounded-none md:h-8 lg:h-10"
+                variant="default"
+              >
+                <Show when="signed-out">
                   <SignUpButton>
                     <span className="text-[10px] md:text-[12px] lg:text-[15px]">
                       Get started
                     </span>
                   </SignUpButton>
-                </Button>
-                <Button
-                  className="flex h-6 rounded-none md:h-8 lg:h-10"
-                  variant="outline"
-                >
-                  <span className="text-[10px] md:text-[12px] lg:text-[15px]">
-                    Watch Demo
-                  </span>
-                </Button>
-              </Show>
+                </Show>
+                <Show when="signed-in">
+                  <Link to={"/dashboard"}>Get started</Link>
+                </Show>
+              </Button>
+              <Button
+                className="flex h-6 rounded-none md:h-8 lg:h-10"
+                variant="outline"
+              >
+                <span className="text-[10px] md:text-[12px] lg:text-[15px]">
+                  Watch Demo
+                </span>
+              </Button>
             </div>
           </div>
         </div>

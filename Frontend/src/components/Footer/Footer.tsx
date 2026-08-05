@@ -20,7 +20,7 @@ function Footer() {
   return (
     <>
       <div className="my-20 flex h-screen w-full flex-col">
-        <div className="flex h-fit w-full text-3xl">
+        <div className="flex h-fit w-full flex-col gap-4 text-3xl md:flex-row md:gap-0">
           <div className="flex-2">
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2">
@@ -56,10 +56,10 @@ function Footer() {
             </div>
           </div>
           <div className="h-full flex-1">
-            <div className="flex w-full gap-4">
+            <div className="flex w-full flex-col gap-4 md:flex-row">
               <div className="flex flex-col gap-4">
                 <p className="text-[1rem]">Product</p>
-                <ul className="flex flex-col justify-center gap-4 text-[1rem] opacity-90">
+                <ul className="flex flex-col justify-center gap-4 text-[1rem] opacity-85">
                   {FooterLink.map((Footer, index) => (
                     <li key={index}>
                       <a href={Footer.url}>{Footer.FooterText}</a>

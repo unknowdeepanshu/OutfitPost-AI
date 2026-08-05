@@ -4,11 +4,12 @@ import { IconMenu2Filled } from "@tabler/icons-react";
 
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
 import { DarkModeToggle } from "../Darkmode/Toggle";
+import { Link } from "react-router";
 function HeaderNav() {
   const [open, setOpen] = useState(false);
   const NavLink = [
-    { NavText: "Features", url: "#" },
     { NavText: "How It Works", url: "#" },
+    { NavText: "Features", url: "#" },
     { NavText: "Templates", url: "#" },
     { NavText: "Pricing", url: "#" },
     { NavText: "FAQ", url: "#" },
@@ -44,6 +45,11 @@ function HeaderNav() {
               <SignInButton> Get started</SignInButton>
             </Button>
           </Show>
+          <Show when="signed-in">
+            <Button className="hidden rounded-none md:flex" variant="default">
+              <Link to={"/dashboard"}> Get started</Link>
+            </Button>
+          </Show>
 
           <DarkModeToggle />
           <Button
@@ -65,12 +71,25 @@ function HeaderNav() {
                 ))}
               </ul>
               <div className="flex h-full flex-col items-center justify-center gap-4 md:hidden">
-                <Button className="rounded-none" variant="default">
-                  Get started
-                </Button>
-                <Button className="rounded-none" variant="outline">
-                  Login
-                </Button>
+                <Show when="signed-out">
+                  <Button className="rounded-none" variant="outline">
+                    <SignUpButton>Login</SignUpButton>
+                  </Button>
+                  <Button className="rounded-none" variant="default">
+                    <SignUpButton> Get started</SignUpButton>
+                  </Button>
+                  <Button
+                    className="hidden rounded-none md:flex"
+                    variant="default"
+                  >
+                    <SignInButton> Get started</SignInButton>
+                  </Button>
+                </Show>
+                <Show when="signed-in">
+                  <Button className="rounded-none" variant="default">
+                    <Link to={"/dashboard"}> Get started</Link>
+                  </Button>
+                </Show>
               </div>
             </nav>
           </>

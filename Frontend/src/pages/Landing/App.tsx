@@ -5,9 +5,8 @@ import {
   HeroSection,
   HowItWorked,
   SupportedFashion,
+  ImageEditSection,
 } from "@/components/Sections";
-
-import { Link } from "react-router";
 
 function App() {
   return (
@@ -17,12 +16,10 @@ function App() {
           <HeaderNav />
           <HeroSection />
           <HowItWorked />
+          <ImageEditSection />
           <SupportedFashion />
           <Faq />
           <Footer />
-          {/* <Link to={"/dashboard"} className="py-4">
-            this is landing pages
-          </Link> */}
         </div>
       </div>
     </>
