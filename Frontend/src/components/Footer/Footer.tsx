@@ -7,6 +7,7 @@ import {
 } from "@tabler/icons-react";
 import { Card } from "../ui/card";
 
+import { motion } from "motion/react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 function Footer() {
@@ -39,20 +40,80 @@ function Footer() {
                   for brands, creators and marketers.
                 </p>
               </div>
-              <div className="flex gap-3">
-                <Card className="items-center justify-center rounded-2xl p-3">
-                  <IconBrandInstagram stroke={2} />
-                </Card>
-                <Card className="items-center justify-center rounded-2xl p-3">
-                  <IconBrandFacebook stroke={2} />
-                </Card>
-                <Card className="items-center justify-center rounded-2xl p-3">
-                  <IconBrandLinkedin stroke={2} />
-                </Card>
-                <Card className="items-center justify-center rounded-2xl p-3">
-                  <IconBrandX stroke={2} />
-                </Card>
-              </div>
+              <motion.div className="flex gap-3">
+                <motion.span
+                  whileHover={{
+                    scale: [null, 1.1, 1.4],
+                    transition: {
+                      duration: 0.5,
+                      times: [0, 0.6, 1],
+                      ease: ["easeInOut", "easeOut"],
+                    },
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeOut",
+                  }}
+                >
+                  <Card className="items-center justify-center rounded-2xl p-3">
+                    <IconBrandInstagram stroke={2} />
+                  </Card>
+                </motion.span>
+                <motion.span
+                  whileHover={{
+                    scale: [null, 1.1, 1.4],
+                    transition: {
+                      duration: 0.5,
+                      times: [0, 0.6, 1],
+                      ease: ["easeInOut", "easeOut"],
+                    },
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeOut",
+                  }}
+                >
+                  <Card className="items-center justify-center rounded-2xl p-3">
+                    <IconBrandFacebook stroke={2} />
+                  </Card>
+                </motion.span>
+                <motion.span
+                  whileHover={{
+                    scale: [null, 1.1, 1.4],
+                    transition: {
+                      duration: 0.5,
+                      times: [0, 0.6, 1],
+                      ease: ["easeInOut", "easeOut"],
+                    },
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeOut",
+                  }}
+                >
+                  <Card className="items-center justify-center rounded-2xl p-3">
+                    <IconBrandLinkedin stroke={2} />
+                  </Card>
+                </motion.span>
+                <motion.span
+                  whileHover={{
+                    scale: [null, 1.1, 1.4],
+                    transition: {
+                      duration: 0.5,
+                      times: [0, 0.6, 1],
+                      ease: ["easeInOut", "easeOut"],
+                    },
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeOut",
+                  }}
+                >
+                  <Card className="items-center justify-center rounded-2xl p-3">
+                    <IconBrandX stroke={2} />
+                  </Card>
+                </motion.span>
+              </motion.div>
             </div>
           </div>
           <div className="h-full flex-1">

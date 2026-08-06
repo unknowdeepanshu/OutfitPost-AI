@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { IconMenu2Filled } from "@tabler/icons-react";
-
-import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
+import { motion } from "motion/react";
+import { Show, SignInButton, SignUpButton } from "@clerk/react";
 import { DarkModeToggle } from "../Darkmode/Toggle";
 import { Link } from "react-router";
 function HeaderNav() {
@@ -17,7 +17,7 @@ function HeaderNav() {
   console.log(open);
   return (
     <>
-      <header className="relative mt-2 flex max-h-1/12 items-center justify-between">
+      <motion.header className="relative mt-2 flex max-h-1/12 items-center justify-between">
         <div className="flex h-full items-center gap-2">
           <img src="/OutfitPost_AI.png" className="h-full" alt="outfitpost" />
           <span className="font-sans font-bold">
@@ -29,9 +29,23 @@ function HeaderNav() {
           <ul className="flex items-center justify-center gap-5">
             {NavLink.map((Nav, index) => (
               <li key={index}>
-                <a href={Nav.url} className="relative">
+                <motion.a
+                  href={Nav.url}
+                  className="group relative flex flex-col"
+                  whileHover="hover"
+                  initial="rest"
+                  animate="rest"
+                >
                   {Nav.NavText}
-                </a>
+                  <motion.span
+                    variants={{
+                      rest: { scaleX: 0, opacity: 0.4 },
+                      hover: { scaleX: 1, opacity: 1 },
+                    }}
+                    transition={{ duration: 0.22, ease: "easeOut" }}
+                    className="bg-chart-3 mt-1 h-px origin-left"
+                  />
+                </motion.a>
               </li>
             ))}
           </ul>
@@ -66,7 +80,23 @@ function HeaderNav() {
               <ul className="flex flex-col items-center justify-center gap-5">
                 {NavLink.map((Nav, index) => (
                   <li key={index}>
-                    <a href={Nav.url}>{Nav.NavText}</a>
+                    <motion.a
+                      href={Nav.url}
+                      className="group relative flex flex-col"
+                      whileHover="hover"
+                      initial="rest"
+                      animate="rest"
+                    >
+                      {Nav.NavText}
+                      <motion.span
+                        variants={{
+                          rest: { scaleX: 0, opacity: 0.4 },
+                          hover: { scaleX: 1, opacity: 1 },
+                        }}
+                        transition={{ duration: 0.22, ease: "easeOut" }}
+                        className="bg-chart-5 mt-1 h-px origin-left"
+                      />
+                    </motion.a>
                   </li>
                 ))}
               </ul>
@@ -95,7 +125,7 @@ function HeaderNav() {
           </>
         ) : null}
         {/* <span className="absolute -bottom-2 h-px w-full bg-amber-50 opacity-25"></span> */}
-      </header>
+      </motion.header>
     </>
   );
 }
