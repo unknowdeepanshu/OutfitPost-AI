@@ -19,7 +19,7 @@ function HeaderNav() {
     <>
       <motion.header className="relative mt-2 flex max-h-1/12 items-center justify-between">
         <div className="flex h-full items-center gap-2">
-          <img src="/OutfitPost_AI.png" className="h-full" alt="outfitpost" />
+          <img src="/OutfitPost_AI.png" className="h-8" alt="outfitpost" />
           <span className="font-sans font-bold">
             Oufit<span className="text-chart-2">Post Ai</span>
           </span>

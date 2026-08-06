@@ -35,7 +35,7 @@ export function HowItWorked() {
   ];
   return (
     <>
-      <div className="my-2 flex h-screen w-full flex-col">
+      <div className="my-5 flex h-screen w-full flex-col">
         <div className="flex w-full justify-center font-mono text-3xl">
           How It Works
         </div>
