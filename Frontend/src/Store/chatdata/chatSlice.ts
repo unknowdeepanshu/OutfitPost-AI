@@ -3,15 +3,11 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 type Image = {
   url: string;
-  AlEnhance: boolean;
-  AlBackgroundRemoval: boolean;
 };
 
 type Images = {
   title: string;
   url: string;
-  AlEnhance: boolean;
-  AlBackgroundRemoval: boolean;
 };
 interface ChatData {
   SelectedCatgory: string | null;
@@ -26,8 +22,8 @@ interface ChatData {
 const initialState: ChatData = {
   SelectedCatgory: " ",
   SelectedPlatform: " ",
-  FashionImage: { url: " ", AlBackgroundRemoval: false, AlEnhance: false },
-  ModelImage: { url: " ", AlBackgroundRemoval: false, AlEnhance: false },
+  FashionImage: { url: " " },
+  ModelImage: { url: " " },
   gender: " ",
   Description: " ",
   Textinclude: false,
@@ -51,8 +47,6 @@ export const ChatDataSlice = createSlice({
 
       const image = {
         url: payload.url ?? "",
-        AlBackgroundRemoval: !!payload.AlBackgroundRemoval,
-        AlEnhance: !!payload.AlEnhance,
       };
 
       if (titleKey === "FashionImage") state.FashionImage = image;

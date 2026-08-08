@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { useDispatch } from "react-redux";
 import { Imagejson } from "@/Store/chatdata/chatSlice";
 import { useState, useRef, useEffect } from "react";
-import CheckboxBasic from "./checkbox";
 
 interface ImageUpload {
   Title: string;
@@ -22,8 +21,6 @@ interface ImageUpload {
 export default function ImageUpload({ Title, Description }: ImageUpload) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [alBackgroundRemoval, setAlBackgroundRemoval] = useState(false);
-  const [alEnhance, setAlEnhance] = useState(false);
   const [imageShow, setImageShow] = useState(true);
 
   function uploadImage() {
@@ -40,32 +37,10 @@ export default function ImageUpload({ Title, Description }: ImageUpload) {
       const ImageData = {
         title: Title,
         url,
-        AlBackgroundRemoval: alBackgroundRemoval,
-        AlEnhance: alEnhance,
       };
       dispatch(Imagejson(ImageData));
     }
   }
-
-  const getEditcheck = (name: string, checked: boolean) => {
-    const key = name.replaceAll(" ", "");
-    if (key === "AlBackgroundRemoval") setAlBackgroundRemoval(checked);
-    if (key === "AlEnhance") setAlEnhance(checked);
-
-    const ImageData = {
-      title: Title,
-      url: previewUrl ?? "",
-      AlBackgroundRemoval:
-        key === "AlBackgroundRemoval" ? checked : alBackgroundRemoval,
-      AlEnhance: key === "AlEnhance" ? checked : alEnhance,
-    };
-    dispatch(Imagejson(ImageData));
-  };
-
-  const imgaeEdit = [
-    { title: "Al Enhance", value: getEditcheck },
-    { title: "Al Background Removal", value: getEditcheck },
-  ];
 
   const dispatch = useDispatch();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -110,9 +85,7 @@ export default function ImageUpload({ Title, Description }: ImageUpload) {
             </EmptyContent>
           </Empty>
         )}
-        {imgaeEdit.map((e) => (
-          <CheckboxBasic Description={e.title} getValues={e.value} />
-        ))}
+
         <Input
           ref={inputRef}
           id="picture"
