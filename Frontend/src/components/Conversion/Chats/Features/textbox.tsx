@@ -23,7 +23,6 @@ export default function TextareaButton() {
   };
   const dscription = () => {
     dispatch(addDescribe(describe));
-    // console.log("this describe", describe);
   };
   const items = [
     { label: "Select a platform", value: null },
