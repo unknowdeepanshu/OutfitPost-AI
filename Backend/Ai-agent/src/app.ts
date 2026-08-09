@@ -14,5 +14,7 @@ app.get("/api/backgroundReomove", (_req: Request, res: Response) => {
 
 //import router
 import imageGeneration from "./routes/GeneratedImage.routes.ts";
+import EditImages from "./routes/EditImage.routes.ts";
 app.use("/api/v1/Imgae", imageGeneration);
+app.use("/api/v1/edit", EditImages);
 export { app };
