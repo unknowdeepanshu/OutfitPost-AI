@@ -1,6 +1,10 @@
 import type { Mergedata } from "./../../type/GeneratedImage.ts";
 import { instance } from "../axios.ts";
 import axios from "axios";
+import {
+  waitForTaskResult,
+  type TaskResultResponse,
+} from "../../Utilits/waitforImage.ts";
 
 // get taskId of image
 interface payload {
@@ -51,14 +55,7 @@ async function GeneratedTaskId(payload: payload) {
 type imgaeUrl = {
   url: string;
 };
-interface GetTaskResponse {
-  status: number;
-  data: {
-    error: null;
-    results: imgaeUrl;
-    task_status: string;
-  };
-}
+type GetTaskResponse = TaskResultResponse<imgaeUrl>;
 
 async function GeneratedImage(taskId: string) {
   try {
@@ -82,30 +79,6 @@ async function GeneratedImage(taskId: string) {
   }
 }
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function WaitForImage(taskId: string) {
-  const MAX_RETRIES = 10;
-
-  for (let i = 0; i < MAX_RETRIES; i++) {
-    const response = await GeneratedImage(taskId);
-
-    if (response.data.task_status === "success") {
-      return response.data.results;
-    }
-
-    if (response.data.task_status === "failed") {
-      throw new Error(response.data.error ?? "Image generation failed.");
-    }
-
-    await sleep(2000);
-  }
-
-  throw new Error("Image generation timeout.");
-}
-
 //sample data
 // const dataa: payload = {
 //   src_file_urls: [
@@ -123,22 +96,29 @@ async function WaitForImage(taskId: string) {
 async function GenerateImageurl(payload: payload) {
   const task = await GeneratedTaskId(payload);
 
-  const image = await WaitForImage(task.data.task_id);
+  const image = await waitForTaskResult<imgaeUrl>(
+    task.data.task_id,
+    GeneratedImage,
+    {
+      delayMs: 4000,
+      failureStatuses: ["failed"],
+    },
+  );
 
   return image;
 }
-interface PromptImage {
+interface GetImageYouCamApi {
   Image_prompt: string;
   Negative_prompt: string;
   mergeImages: string;
   size: string;
 }
-async function PromptImage({
+async function GetImageYouCamApi({
   Image_prompt,
   Negative_prompt,
   mergeImages,
   size,
-}: PromptImage) {
+}: GetImageYouCamApi) {
   const payloadData: payload = {
     src_file_urls: [mergeImages],
     model: "youcam-image-v2",
@@ -150,4 +130,4 @@ async function PromptImage({
   const Response = await GenerateImageurl(payloadData);
   return Response;
 }
-export { PromptImage };
+export { GetImageYouCamApi };

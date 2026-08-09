@@ -9,7 +9,7 @@ import type {
 } from "../type/GeneratedImage.ts";
 import { AgentCalled } from "../Langgraph/Agent.ts";
 import { AddAgentImage } from "../youCamApi/axios.ts";
-import { PromptImage } from "../youCamApi/imageGenerationApi/ImageGenerating.ts";
+import { GetImageYouCamApi } from "../youCamApi/imageGenerationApi/ImageGenerating.ts";
 
 const generateImage = asyncHandler(async (req: Request, res: Response) => {
   const userData: userData = req.body;
@@ -42,7 +42,7 @@ const Addagent = asyncHandler(async (req: Request, res: Response) => {
     agentdata["messages"].at(-1)?.content,
   );
   console.log("this is image prompt", agentMessage);
-  const postImage = await PromptImage({
+  const postImage = await GetImageYouCamApi({
     Image_prompt: agentMessage.ImagePrompt,
     Negative_prompt: agentMessage.NegativePrompt,
     mergeImages: mergeImages,
