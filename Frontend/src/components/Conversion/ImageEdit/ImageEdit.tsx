@@ -91,15 +91,14 @@ export function ImageEdit({ ShowImage, className, ...props }: ImageEdit) {
                 <FieldLabel>Image Edit</FieldLabel>
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card"></FieldSeparator>
-              <Field>
-                {EditFeatures.map((e, index) => (
+              {EditFeatures.map((e, index) => (
+                <Field key={index}>
                   <ImageEDitUIBOX
-                    key={index}
                     children={e.componentNmae}
                     HeaderTitle={e.title}
                   />
-                ))}
-              </Field>
+                </Field>
+              ))}
             </FieldGroup>
           </form>
         </CardContent>

@@ -38,9 +38,11 @@ const number = [
 function ScaleNumber({ items }: SelectDemo) {
   const [number, setNumber] = useState<Number>(0);
   const dispatch = useDispatch();
-  useEffect(() => {
+  const submite = () => {
     dispatch(ScaleNumbers(number));
-  }, [number]);
+    console.log("number", number);
+  };
+  useEffect(() => {}, [number]);
   return (
     <>
       <Select items={items}>
@@ -65,7 +67,7 @@ function ScaleNumber({ items }: SelectDemo) {
         </SelectContent>
       </Select>
 
-      <Button>Apply</Button>
+      <Button onClick={submite}>Apply</Button>
     </>
   );
 }
