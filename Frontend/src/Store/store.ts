@@ -1,8 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import projectCreationReducer from "@/Store/projectCreate/projectSlice";
 import ChatDataReducer from "./chatdata/chatSlice";
+import EditImageReducer from "./EditImage/EditiImageSlice";
 export const store = configureStore({
-  reducer: { project: projectCreationReducer, chatdata: ChatDataReducer },
+  reducer: {
+    project: projectCreationReducer,
+    chatdata: ChatDataReducer,
+    editImag: EditImageReducer,
+  },
 });
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
