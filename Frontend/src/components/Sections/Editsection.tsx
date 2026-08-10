@@ -41,20 +41,22 @@ function ImageEditSection() {
   ];
   return (
     <>
-      <div className="my-20 flex min-h-screen w-full flex-col">
-        <div className="flex w-full flex-col text-center text-3xl">
-          <b>Image Editing with AI</b>
-        </div>
-        <div className="mt-8 flex w-full flex-1 gap-2 md:h-80">
-          <div className="flex h-full flex-wrap justify-center gap-3 md:justify-normal">
-            {ImageEdit.map((e, index) => (
-              <ImageEditCatgory
-                key={index}
-                ImageEditUrl={e.ImageEditUrl}
-                ImageEditPara={e.ImageEditPara}
-                ImageEditHeader={e.ImageEditHeader}
-              />
-            ))}
+      <div className="flex w-full flex-col">
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex w-full flex-col text-center text-3xl">
+            <b>Image Editing with AI</b>
+          </div>
+          <div className="mt-8 flex h-full w-full flex-1 gap-2">
+            <div className="mx-auto flex flex-wrap justify-center gap-10">
+              {ImageEdit.map((e, index) => (
+                <ImageEditCatgory
+                  key={index}
+                  ImageEditUrl={e.ImageEditUrl}
+                  ImageEditPara={e.ImageEditPara}
+                  ImageEditHeader={e.ImageEditHeader}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
