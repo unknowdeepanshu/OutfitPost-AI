@@ -19,16 +19,19 @@ const messageSchema = new Schema(
     modelImage: {
       type: String,
       required: true,
+      trim: true,
     },
 
     productImage: {
       type: String,
       required: true,
+      trim: true,
     },
 
-    currentposterImage: {
+    currentPosterImage: {
       type: String,
       default: "",
+      trim: true,
     },
 
     category: {
@@ -48,6 +51,12 @@ const messageSchema = new Schema(
       default: true,
     },
 
+    gender: {
+      type: String,
+      enum: ["male", "female", "other"],
+      default: "other",
+    },
+
     status: {
       type: String,
       enum: [
@@ -60,16 +69,17 @@ const messageSchema = new Schema(
       index: true,
     },
 
-    mergeImage: {
+    errorMessage: {
       type: String,
       default: "",
     },
-    
-    gender: {
+
+    mergeImage: {
       type: String,
-      enum: ["male", "female", "other"],
-      default: "other",
+      default: "",
+      trim: true,
     },
+
   },
   {
     timestamps: true,
