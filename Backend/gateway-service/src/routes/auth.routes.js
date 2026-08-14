@@ -1,16 +1,13 @@
 import { Router } from "express";
 import { requireAuth, getAuth } from "@clerk/express";
-
+import { UserCreated } from "../controllers/auth.controller.js";
+import express from "express";
 const router = Router();
 
-router.get("/me", (req, res) => {
-  const { userId, sessionClaims } = getAuth(req);
-
-  res.status(200).json({
-    success: true,
-    userId,
-    sessionClaims,
-  });
-});
+router.post(
+  "/createduserwebhook",
+  express.raw({ type: "application/json" }),
+  UserCreated,
+);
 
 export default router;

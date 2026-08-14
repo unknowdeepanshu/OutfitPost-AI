@@ -4,6 +4,6 @@ import { syncCurrentUser } from "../controllers/user.controller.js";
 
 const router = Router();
 
-router.post("/sync", requireAuth(), syncCurrentUser);
+router.post("/sync", syncCurrentUser);
 
 export default router;
