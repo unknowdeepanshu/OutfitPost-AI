@@ -3,12 +3,15 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 type Image = {
   url: string;
+  file?: File | null;
 };
 
 type Images = {
   title: string;
   url: string;
+  file?: File | null;
 };
+
 interface ChatData {
   SelectedCatgory: string | null;
   FashionImage: Image;
@@ -17,6 +20,7 @@ interface ChatData {
   Description: string;
   Textinclude: boolean;
   SelectedPlatform: string | null;
+  isUploading: boolean;
 }
 
 const initialState: ChatData = {
@@ -27,6 +31,7 @@ const initialState: ChatData = {
   gender: " ",
   Description: " ",
   Textinclude: false,
+  isUploading: false,
 };
 
 export const ChatDataSlice = createSlice({
@@ -47,10 +52,15 @@ export const ChatDataSlice = createSlice({
 
       const image = {
         url: payload.url ?? "",
+        file: payload.file,
+        title: payload.title,
       };
 
       if (titleKey === "FashionImage") state.FashionImage = image;
       if (titleKey === "ModelImage") state.ModelImage = image;
+    },
+    setUploading: (state, action: PayloadAction<boolean>) => {
+      state.isUploading = action.payload;
     },
     addText: (state, action: PayloadAction<boolean>) => {
       state.Textinclude = action.payload;
@@ -63,6 +73,13 @@ export const ChatDataSlice = createSlice({
     },
   },
 });
-export const { addDescribe, Catgory, Platform, addGender, Imagejson, addText } =
-  ChatDataSlice.actions;
+export const {
+  addDescribe,
+  Catgory,
+  Platform,
+  addGender,
+  Imagejson,
+  addText,
+  setUploading,
+} = ChatDataSlice.actions;
 export default ChatDataSlice.reducer;
