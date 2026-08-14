@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { getAuth } from "@clerk/express";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
+import { Message } from "../models/message.model.js";
 
 const addConversation = asyncHandler(async (req, res) => {
   const { isAuthenticated, userId } = getAuth(req);
@@ -44,9 +45,20 @@ const addConversation = asyncHandler(async (req, res) => {
       ],
 
       lastMessageAt: new Date(),
+    }); // 2. Create full Message document
+    await Message.create({
+      conversationId: conversation._id,
+
+      MessageID: ProjectId,
+      MessageName: ProjectName,
+
+      // Fill this later when the project data is available
+      Data: [],
+
+      status: "pending",
     });
   } else {
-    // Existing conversation → add new project/message
+    // 1. Add lightweight message info to Conversation
     conversation.messages.push({
       messageId: ProjectId,
       messageName: ProjectName,
@@ -55,6 +67,18 @@ const addConversation = asyncHandler(async (req, res) => {
     conversation.lastMessageAt = new Date();
 
     await conversation.save();
+
+    // 2. Create full Message document
+    await Message.create({
+      conversationId: conversation._id,
+
+      MessageID: ProjectId,
+      MessageName: ProjectName,
+
+      Data: [],
+
+      status: "pending",
+    });
   }
   return res
     .status(201)
@@ -84,11 +108,20 @@ const deleteMessage = asyncHandler(async (req, res) => {
     throw new ApiError(400, "ProjectName and ProjectId are required");
   }
 
-  let conversation = await Conversation.findOne({
+  const conversation = await Conversation.findOne({
     userId: user._id,
   });
+
   if (!conversation) {
     throw new ApiError(404, "Conversation not found");
+  }
+
+  const messageExists = conversation.messages.some(
+    (message) => message.messageId === ProjectId,
+  );
+
+  if (!messageExists) {
+    throw new ApiError(404, "Project not found in conversation");
   }
 
   conversation.messages.pull({
@@ -98,6 +131,11 @@ const deleteMessage = asyncHandler(async (req, res) => {
   conversation.lastMessageAt = new Date();
 
   await conversation.save();
+
+  await Message.deleteOne({
+    MessageID: ProjectId,
+    conversationId: conversation._id,
+  });
   return res
     .status(201)
     .json(
