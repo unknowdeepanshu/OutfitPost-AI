@@ -1,14 +1,29 @@
 import multer from "multer";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const uploadDir = path.join(__dirname, "../../public/temp");
+
+// Make sure directory exists
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "./gateway-service");
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-})
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
 
-export const upload = multer({ 
-    storage: storage
- });
+  filename: function (req, file, cb) {
+    const uniqueName = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueName);
+  },
+});
+
+export const upload = multer({
+  storage,
+});
