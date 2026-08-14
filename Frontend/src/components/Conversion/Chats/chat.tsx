@@ -9,12 +9,13 @@ import {
 import { SelectDemo, ImageUpload, TextareaButton } from "./Features";
 import { useDispatch, useSelector } from "react-redux";
 import { Catgory, addGender } from "@/Store/chatdata/chatSlice";
-import type { RootState } from "@/Store/store";
+import type { AppDispatch, RootState } from "@/Store/store";
 import { useParams } from "react-router";
-import { toast } from "sonner";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+// import { submitChatData } from "@/Store/chatdata/chatDataThunk";
 
 interface Chats extends React.ComponentProps<"div"> {
   ShowImage: (name: boolean) => void;
@@ -24,14 +25,14 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
   const chatjson = useSelector((state: RootState) => state.chatdata);
   console.log(chatjson);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const getCatgory = (param: string | null) => {
     dispatch(Catgory(param));
   };
   const getGender = (param: string | null) => {
     dispatch(addGender(param));
   };
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if ((chatjson.Description ?? "").toString().trim().length === 0) {
@@ -121,10 +122,12 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
                 <div className="my-2 flex flex-col justify-around gap-2 2xl:flex-row">
                   <ImageUpload
                     Title="Fashion Image"
+                    id={threadId}
                     Description="Upload your fashion product."
                   />
                   <ImageUpload
                     Title="Model Image"
+                    id={threadId}
                     Description="Upload your model photo."
                   />
                 </div>

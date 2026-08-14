@@ -6,8 +6,6 @@ import Sidebars from "@/components/Sidebar/Sidebar";
 
 import { useTheme } from "@/components/Darkmode/theme-provider";
 import { Toaster } from "sonner";
-import { useEffect } from "react";
-import { getToken } from "@clerk/react";
 
 function Dashboard() {
   const { theme } = useTheme();
@@ -19,32 +17,6 @@ function Dashboard() {
   console.log("this is thread id", threadId);
   // this is for Authorization
 
-  const send = async () => {
-    const userToken = await getToken();
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_GATEWAY_API}/api/v1/auth/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        },
-      );
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("this is error", error);
-    }
-  };
-
-  useEffect(() => {
-    const getData = async () => {
-      const data = await send();
-      console.log("this is auth", data);
-    };
-
-    getData();
-  }, []);
   return (
     <>
       {present ? <Sidebars /> : <Page404 />}

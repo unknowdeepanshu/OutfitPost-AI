@@ -17,13 +17,24 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AlertCircleIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
 import { SidebarGroup } from "@/components/ui/sidebar";
-
+import { api } from "@/services/axios";
+interface ProjectCreated {
+  ProjectName: string;
+  ProjectId: string;
+}
 export function CreateProject() {
   const dispatch = useDispatch();
   const [project, setProject] = useState(" ");
   const [Empty, setEmpty] = useState(false);
+  const addConverstion = async (project: ProjectCreated) => {
+    const response = await api.post("/conversations/create", project);
+    console.log(await response.data);
+  };
+  const CalledConvertion = async (project: ProjectCreated) => {
+    const response = await addConverstion(project);
+    console.log("this convertion", response);
+  };
   const handleProject = (e: React.SubmitEvent) => {
     e.preventDefault();
     console.log("this is project name", project);
@@ -33,7 +44,12 @@ export function CreateProject() {
         setEmpty(false);
       }, 5000);
     } else {
-      dispatch(CreateProjectS(project));
+      const projectData = {
+        ProjectName: project.trim(),
+        ProjectId: crypto.randomUUID(),
+      };
+      CalledConvertion(projectData);
+      dispatch(CreateProjectS(projectData));
     }
   };
   return (
