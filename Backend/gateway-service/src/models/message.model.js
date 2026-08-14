@@ -4,15 +4,31 @@ import { POSTER_CATEGORY, SOCIAL_PLATFORM } from "./model.constants.js";
 const messageData = new Schema(
   {
     modelImage: {
-      type: String,
-      required: true,
-      trim: true,
+      url: {
+        type: String,
+        default: "",
+        trim: true,
+      },
+
+      publicId: {
+        type: String,
+        default: "",
+        trim: true,
+      },
     },
 
     productImage: {
-      type: String,
-      required: true,
-      trim: true,
+      url: {
+        type: String,
+        default: "",
+        trim: true,
+      },
+
+      publicId: {
+        type: String,
+        default: "",
+        trim: true,
+      },
     },
 
     currentPosterImage: {
