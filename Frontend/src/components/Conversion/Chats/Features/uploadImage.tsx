@@ -9,16 +9,21 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
-
 import { useDispatch } from "react-redux";
 import { Imagejson } from "@/Store/chatdata/chatSlice";
 import { useState, useRef, useEffect } from "react";
 
+import type { AppDispatch } from "@/Store/store";
+import {
+  UploadFashionImage,
+  UploadModelImage,
+} from "@/Store/chatdata/chatDataThunk";
 interface ImageUpload {
   Title: string;
   Description: string;
+  id: string | undefined;
 }
-export default function ImageUpload({ Title, Description }: ImageUpload) {
+export default function ImageUpload({ Title, Description, id }: ImageUpload) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [imageShow, setImageShow] = useState(true);
@@ -27,22 +32,30 @@ export default function ImageUpload({ Title, Description }: ImageUpload) {
     inputRef.current?.click();
   }
 
-  function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const dispatch = useDispatch<AppDispatch>();
+  async function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0] ?? null;
     setFile(f);
     if (f) {
+      if (Title === "Fashion Image") {
+        console.log({ file: f, chatId: id });
+        dispatch(UploadFashionImage({ file: f, chatId: id }));
+      } else if (Title === "Model Image") {
+        console.log({ file: f, chatId: id });
+        dispatch(UploadModelImage({ file: f, chatId: id }));
+      }
       const url = URL.createObjectURL(f);
       setPreviewUrl(url);
       setImageShow(false);
       const ImageData = {
         title: Title,
+        file: f,
         url,
       };
       dispatch(Imagejson(ImageData));
     }
   }
 
-  const dispatch = useDispatch();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
