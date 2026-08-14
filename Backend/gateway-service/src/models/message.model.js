@@ -1,21 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 import { POSTER_CATEGORY, SOCIAL_PLATFORM } from "./model.constants.js";
 
-const messageSchema = new Schema(
+const messageData = new Schema(
   {
-    conversationId: {
-      type: Schema.Types.ObjectId,
-      ref: "Conversation",
-      required: true,
-      index: true,
-    },
-
-    title: {
-      type: String,
-      trim: true,
-      maxlength: 160,
-    },
-
     modelImage: {
       type: String,
       required: true,
@@ -45,6 +32,10 @@ const messageSchema = new Schema(
       enum: SOCIAL_PLATFORM,
       required: true,
     },
+    Description: {
+      type: String,
+      required: true,
+    },
 
     includeText: {
       type: Boolean,
@@ -56,15 +47,39 @@ const messageSchema = new Schema(
       enum: ["male", "female", "other"],
       default: "other",
     },
+  },
+  {
+    timestamps: true,
+  },
+);
 
+const messageSchema = new Schema(
+  {
+    conversationId: {
+      type: Schema.Types.ObjectId,
+      ref: "Conversation",
+      required: true,
+      index: true,
+    },
+
+    MessageName: {
+      type: String,
+      trim: true,
+      maxlength: 160,
+    },
+
+    MessageID: {
+      type: String,
+      trim: true,
+      maxlength: 160,
+    },
+    Data: {
+      type: [messageData],
+      default: [],
+    },
     status: {
       type: String,
-      enum: [
-        "pending",
-        "processing",
-        "completed",
-        "failed",
-      ],
+      enum: ["pending", "processing", "completed", "failed"],
       default: "pending",
       index: true,
     },
@@ -79,11 +94,10 @@ const messageSchema = new Schema(
       default: "",
       trim: true,
     },
-
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 messageSchema.index({
