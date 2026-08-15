@@ -25,7 +25,7 @@ export async function waitForTaskResult<TResult>(
   options: WaitForTaskOptions = {},
 ) {
   const {
-    maxRetries = 10,
+    maxRetries = 20,
     delayMs = 4000,
     successStatus = "success",
     failureStatuses = ["error"],

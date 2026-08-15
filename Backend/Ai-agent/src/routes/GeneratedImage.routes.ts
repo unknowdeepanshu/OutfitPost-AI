@@ -6,11 +6,11 @@ import {
   Addagent,
 } from "../controllers/GeneratedImage.controllers.ts";
 const router = Router();
-router.route("/background").get((_req: Request, res: Response) => {
+router.get("/background", (_req: Request, res: Response) => {
   res.send("<h1> hi buddy</h1>");
 });
 
-router.route("/getImage").post(generateImage);
+router.post("/getImage", generateImage);
 
-router.route("/addAgent").post(Addagent);
+router.post("/addAgent", Addagent);
 export default router;

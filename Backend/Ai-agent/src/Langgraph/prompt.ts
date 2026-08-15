@@ -331,17 +331,17 @@ TEXT POSITION RULE:
 - Only extract text that is explicitly written in the user Description.
 - If the user wants visible text on the poster, it MUST appear in this exact format:
 
-{position:exact user text}
+{position:exact user text,(option color:red or hex code) }
 
 Examples:
-{top-right:"Limited Time Offer"}
+{top-right:"Limited Time Offer", color:red}
 {center:"Summer Sale"}
 {bottom-left:"Shop Now"}
 
 - "position" must describe placement (top-left, top-right, center, bottom-right, etc.)
 - "exact user text" must match the user's words exactly.
 - Only reserve clean negative space for future typography.
-
+- Color value will be option if user wanted then user add color in curly braces afetr postion values if user not add color choose wisely accordingly what will you decision about backeground 
 8. Typography Styling (IMPORTANT)
 If includeText is true:
 - Design typography visually:

@@ -27,7 +27,7 @@ const generateImage = asyncHandler(async (req: Request, res: Response) => {
   const data = await AddAgentImage.post("/addAgent", payload);
   res.status(200).json({
     message: "ok",
-    addagent: data.data,
+    addAgent: data.data,
   });
 });
 
