@@ -1,25 +1,48 @@
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Page404 from "../NoFound/Notfound";
-import type { RootState } from "@/Store/store";
+import type { RootState, AppDispatch } from "@/Store/store";
 import Sidebars from "@/components/Sidebar/Sidebar";
-
+import * as React from "react";
 import { useTheme } from "@/components/Darkmode/theme-provider";
 import { Toaster } from "sonner";
+import { GetProjects } from "@/Store/projectCreate/projectThunk";
 
 function Dashboard() {
   const { theme } = useTheme();
-  const project = useSelector((state: RootState) => state.project);
-  console.log(project);
   const { threadId } = useParams();
-  const array = project.filter((e) => e.ProjectId === threadId);
-  const present = threadId === undefined || array.length > 0;
-  console.log("this is thread id", threadId);
-  // this is for Authorization
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const project = useSelector((state: RootState) => state.project);
+
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        await dispatch(GetProjects()).unwrap();
+      } catch (error) {
+        console.error("Failed to load projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
+  }, [dispatch]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  const projectExists =
+    threadId === undefined ||
+    project.some((item) => item.ProjectId === threadId);
 
   return (
     <>
-      {present ? <Sidebars /> : <Page404 />}
+      {projectExists ? <Sidebars /> : <Page404 />}
       <Toaster theme={theme} />
     </>
   );
