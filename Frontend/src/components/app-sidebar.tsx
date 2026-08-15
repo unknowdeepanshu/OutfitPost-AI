@@ -14,16 +14,13 @@ import {
 } from "@/components/ui/sidebar";
 import { TerminalSquareIcon, Settings2Icon } from "lucide-react";
 import { CreateProject } from "./ProjectDioalog/CreateProject";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import type { RootState } from "@/Store/store";
 import { Link } from "react-router";
 import { useUser } from "@clerk/react";
-import type { AppDispatch } from "@/Store/store";
-import { GetProjects } from "@/Store/projectCreate/projectThunk";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser();
-  const dispatch = useDispatch<AppDispatch>();
   const data = {
     user: {
       name: `${user?.fullName}`,
@@ -50,9 +47,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   console.log(project);
   console.log("this is user data:-", user);
 
-  React.useEffect(() => {
-    dispatch(GetProjects());
-  }, [dispatch]);
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
       <SidebarHeader>
