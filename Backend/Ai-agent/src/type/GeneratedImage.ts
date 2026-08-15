@@ -1,7 +1,5 @@
 export type Image = {
   url: string;
-  AlEnhance: boolean;
-  AlBackgroundRemoval: boolean;
 };
 export interface userData {
   SelectedCatgory: string | null;

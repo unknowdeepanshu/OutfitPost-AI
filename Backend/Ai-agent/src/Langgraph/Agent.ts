@@ -30,18 +30,23 @@ const State = new StateSchema({
 
 // this is for vison model get image data
 const vision: GraphNode<typeof State> = async (state) => {
-  console.log("Vison runing");
   const user = state.messages[0]?.content[0]?.text;
+  console.log("Vison runing");
   const ImageUrl: any = state.messages[0]?.content[1]?.url;
   const messgae = ImageTotext({ userPromt: user, imageUrl: ImageUrl });
   const Response = await modelImage.invoke(messgae);
+  // console.log("this is vidson:-", Response);
   return { messages: Response.content };
 };
 // this is for make post for social media
 const director: GraphNode<typeof State> = async (state) => {
-  console.log("Director runing");
-  const user = state.messages[1]?.content;
-  const messgae = TextToImage({ userPromt: String(user) });
+  const Visondata = state.messages[1]?.content;
+  const userData = state.messages[0]?.content[0]?.text;
+  const messgae = TextToImage({
+    userPromt: String(userData),
+    Visondata: String(Visondata),
+  });
+  console.log("Director runing", messgae);
   const Response = await modelText.invoke(messgae);
   return { messages: Response.content };
 };
@@ -62,7 +67,7 @@ const checkCharacterCount = async (state: any) => {
   console.log("this is text:-", text);
   const countCharacters = text["ImagePrompt"].trim().length;
   console.log("lenght:-", countCharacters);
-  if (countCharacters > 800) {
+  if (countCharacters > 800 || countCharacters < 400) {
     return "validationFailNode";
   }
   return "continueNode";
@@ -71,11 +76,9 @@ const graph = new StateGraph(State)
   .addNode("VisonTotext", vision)
   .addNode("Director", director)
   .addNode("Validation", valdiationCharacter)
-
   .addEdge(START, "VisonTotext")
   .addEdge("VisonTotext", "Director")
-  .addEdge("Director", "Validation")
-  .addConditionalEdges("Validation", checkCharacterCount, {
+  .addConditionalEdges("Director", checkCharacterCount, {
     continueNode: END,
     validationFailNode: "Validation",
   })

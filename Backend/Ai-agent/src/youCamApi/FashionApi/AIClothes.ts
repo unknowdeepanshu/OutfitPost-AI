@@ -1,5 +1,9 @@
 import { instance } from "../axios.ts";
 import axios from "axios";
+import {
+  waitForTaskResult,
+  type TaskResultResponse,
+} from "../../Utilits/waitforImage.ts";
 interface CreateTaskResponse {
   status: number;
   data: {
@@ -12,11 +16,6 @@ interface payload {
   garment_category: string;
   change_shoes: boolean;
 }
-
-const defaultPayload = {
-  garment_category: "auto",
-  change_shoes: true,
-} as const;
 
 async function GeneratedTaskId(payload: payload) {
   try {
@@ -53,14 +52,7 @@ async function GeneratedTaskId(payload: payload) {
 type imgaeUrl = {
   url: string;
 };
-interface GetTaskResponse {
-  status: number;
-  data: {
-    error: null;
-    results: imgaeUrl;
-    task_status: string;
-  };
-}
+type GetTaskResponse = TaskResultResponse<imgaeUrl>;
 
 async function GeneratedMergeImage(taskId: string) {
   try {
@@ -82,34 +74,17 @@ async function GeneratedMergeImage(taskId: string) {
   }
 }
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function WaitForMergeCloths(taskId: string) {
-  const MAX_RETRIES = 10;
-
-  for (let i = 0; i < MAX_RETRIES; i++) {
-    const response = await GeneratedMergeImage(taskId);
-
-    if (response.data.task_status === "success") {
-      return response.data.results;
-    }
-
-    if (response.data.task_status === "error") {
-      throw new Error(response.data.error ?? "Image generation failed.");
-    }
-
-    await sleep(2000);
-  }
-
-  throw new Error("Image generation timeout.");
-}
-
 export default async function getMergeclothsImageurl(payload: payload) {
   const task = await GeneratedTaskId(payload);
 
-  const image = await WaitForMergeCloths(task.data.task_id);
+  const image = await waitForTaskResult<imgaeUrl>(
+    task.data.task_id,
+    GeneratedMergeImage,
+    {
+      delayMs: 4000,
+      failureStatuses: ["error"],
+    },
+  );
 
   return image;
 }
