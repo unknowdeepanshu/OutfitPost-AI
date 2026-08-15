@@ -2,7 +2,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -20,17 +19,29 @@ import { Separator } from "@/components/ui/separator";
 import { DeleteProject } from "@/Store/projectCreate/projectSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router";
+import { Button } from "./ui/button";
+import { api } from "@/services/axios";
 
+type projectStructure = {
+  ProjectName: string;
+  ProjectId: string;
+};
 interface NavProjects {
-  projects: {
-    ProjectName: string;
-    ProjectId: string;
-  }[];
+  projects: projectStructure[];
 }
 export function NavProjects({ projects }: NavProjects) {
   const dispatch = useDispatch();
   const { isMobile } = useSidebar();
+  const deleteConverstion = async (id: string) => {
+    const response = await api.post("/conversations/delete", { ProjectId: id });
+    console.log(await response.data);
+  };
+  const CalledConvertion = async (id: string) => {
+    const response = await deleteConverstion(id);
+    console.log("this convertion", response);
+  };
   function handleDeleted(id: string) {
+    CalledConvertion(id);
     dispatch(DeleteProject(id));
   }
 
@@ -64,14 +75,16 @@ export function NavProjects({ projects }: NavProjects) {
                   side={isMobile ? "bottom" : "right"}
                   align={isMobile ? "end" : "start"}
                 >
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => {
-                      handleDeleted(item.ProjectId);
-                    }}
-                  >
-                    <Trash2Icon className="text-muted-foreground" />
-                    <span>Delete Project</span>
+                  <DropdownMenuItem>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        handleDeleted(item.ProjectId);
+                      }}
+                    >
+                      <Trash2Icon className="text-muted-foreground" />
+                      <span>Delete Project</span>
+                    </Button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

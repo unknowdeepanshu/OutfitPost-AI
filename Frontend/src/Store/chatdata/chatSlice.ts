@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { GetMessage } from "./chatDataThunk";
 
 type Image = {
   url: string;
-  AlEnhance: boolean;
-  AlBackgroundRemoval: boolean;
+  file?: File | null;
 };
 
 type Images = {
   title: string;
   url: string;
-  AlEnhance: boolean;
-  AlBackgroundRemoval: boolean;
+  file?: File | null;
 };
+
 interface ChatData {
   SelectedCatgory: string | null;
   FashionImage: Image;
@@ -21,16 +21,18 @@ interface ChatData {
   Description: string;
   Textinclude: boolean;
   SelectedPlatform: string | null;
+  isUploading: boolean;
 }
 
 const initialState: ChatData = {
   SelectedCatgory: " ",
   SelectedPlatform: " ",
-  FashionImage: { url: " ", AlBackgroundRemoval: false, AlEnhance: false },
-  ModelImage: { url: " ", AlBackgroundRemoval: false, AlEnhance: false },
+  FashionImage: { url: " " },
+  ModelImage: { url: " " },
   gender: " ",
   Description: " ",
   Textinclude: false,
+  isUploading: false,
 };
 
 export const ChatDataSlice = createSlice({
@@ -51,12 +53,15 @@ export const ChatDataSlice = createSlice({
 
       const image = {
         url: payload.url ?? "",
-        AlBackgroundRemoval: !!payload.AlBackgroundRemoval,
-        AlEnhance: !!payload.AlEnhance,
+        file: payload.file,
+        title: payload.title,
       };
 
       if (titleKey === "FashionImage") state.FashionImage = image;
       if (titleKey === "ModelImage") state.ModelImage = image;
+    },
+    setUploading: (state, action: PayloadAction<boolean>) => {
+      state.isUploading = action.payload;
     },
     addText: (state, action: PayloadAction<boolean>) => {
       state.Textinclude = action.payload;
@@ -68,7 +73,19 @@ export const ChatDataSlice = createSlice({
       state.gender = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(GetMessage.fulfilled, (state, action) => {
+      return action.payload;
+    });
+  },
 });
-export const { addDescribe, Catgory, Platform, addGender, Imagejson, addText } =
-  ChatDataSlice.actions;
+export const {
+  addDescribe,
+  Catgory,
+  Platform,
+  addGender,
+  Imagejson,
+  addText,
+  setUploading,
+} = ChatDataSlice.actions;
 export default ChatDataSlice.reducer;

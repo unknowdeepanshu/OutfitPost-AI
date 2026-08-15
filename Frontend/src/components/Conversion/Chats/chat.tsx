@@ -9,29 +9,41 @@ import {
 import { SelectDemo, ImageUpload, TextareaButton } from "./Features";
 import { useDispatch, useSelector } from "react-redux";
 import { Catgory, addGender } from "@/Store/chatdata/chatSlice";
-import type { RootState } from "@/Store/store";
+import type { AppDispatch, RootState } from "@/Store/store";
 import { useParams } from "react-router";
-import { toast } from "sonner";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { toast } from "sonner";
+import { api } from "@/services/axios";
+type Image = {
+  url: string;
+  file?: File | null;
+};
+interface ChatData {
+  SelectedCatgory: string | null;
+  FashionImage: Image;
+  ModelImage: Image;
+  gender: string | null;
+  Description: string;
+  Textinclude: boolean;
+  SelectedPlatform: string | null;
+  isUploading: boolean;
+}
 interface Chats extends React.ComponentProps<"div"> {
   ShowImage: (name: boolean) => void;
+  chatjson: ChatData;
 }
-
-export function Chats({ ShowImage, className, ...props }: Chats) {
-  const chatjson = useSelector((state: RootState) => state.chatdata);
-  console.log(chatjson);
-
-  const dispatch = useDispatch();
+export function Chats({ ShowImage, chatjson, className, ...props }: Chats) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { threadId } = useParams();
   const getCatgory = (param: string | null) => {
     dispatch(Catgory(param));
   };
   const getGender = (param: string | null) => {
     dispatch(addGender(param));
   };
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if ((chatjson.Description ?? "").toString().trim().length === 0) {
@@ -72,11 +84,31 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
       toast.error("choose the model Image");
       return;
     }
+    async function sendDatas() {
+      async function sendMessages() {
+        const sendData = {
+          ProjectId: threadId,
+          category: chatjson.SelectedCatgory,
+          platform: chatjson.SelectedPlatform,
+          includeText: chatjson.Textinclude,
+          Description: chatjson.Description,
+          gender: chatjson.gender,
+        };
+        const res = await api.post("message/create", sendData);
+        console.log("this is from backend", res.data);
+        return res.data;
+      }
+      await sendMessages();
+    }
+    sendDatas();
+    console.log("this is chatdata", chatjson);
+    toast.success("uploading");
   };
-  const { threadId } = useParams();
+
   const project = useSelector((state: RootState) => state.project);
-  const title = project.filter((e) => e.ProjectId === threadId)[0].ProjectName;
-  const items = [
+  const currentProject = project.find((e) => e.ProjectId === threadId);
+  const title = currentProject?.ProjectName ?? "New Project";
+  const Fashion = [
     { label: "Select a Fashion", value: null },
     { label: "Clothes", value: "Clothes" },
     { label: "Bag", value: "Bag" },
@@ -89,7 +121,7 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
     { label: "Female", value: "Female" },
     { label: "Male", value: "Male" },
   ];
-  console.log("this is thread id", threadId);
+  // console.log("this is thread id", threadId);
   return (
     <div className={cn("flex flex-1 flex-col gap-6", className)} {...props}>
       <Card className="flex-1">
@@ -113,7 +145,11 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
             <FieldGroup>
               <Field>
                 <FieldLabel>Select a Category</FieldLabel>
-                <SelectDemo setCategory={getCatgory} items={items} />
+                <SelectDemo
+                  setCategory={getCatgory}
+                  items={Fashion}
+                  defaults={chatjson.SelectedCatgory}
+                />
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card"></FieldSeparator>
               <Field>
@@ -121,19 +157,28 @@ export function Chats({ ShowImage, className, ...props }: Chats) {
                 <div className="my-2 flex flex-col justify-around gap-2 2xl:flex-row">
                   <ImageUpload
                     Title="Fashion Image"
+                    id={threadId}
                     Description="Upload your fashion product."
                   />
                   <ImageUpload
                     Title="Model Image"
+                    id={threadId}
                     Description="Upload your model photo."
                   />
                 </div>
 
-                <SelectDemo setCategory={getGender} items={Gender} />
+                <SelectDemo
+                  setCategory={getGender}
+                  items={Gender}
+                  defaults={chatjson.gender}
+                />
               </Field>
               <Field>
                 <FieldLabel>Describe your product</FieldLabel>
-                <TextareaButton />
+                <TextareaButton
+                  description={chatjson.Description}
+                  seletedValue={chatjson.SelectedPlatform}
+                />
               </Field>
             </FieldGroup>
           </form>

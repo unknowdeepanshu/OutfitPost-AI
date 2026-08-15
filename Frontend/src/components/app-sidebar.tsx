@@ -12,131 +12,40 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  TerminalSquareIcon,
-  BotIcon,
-  BookOpenIcon,
-  Settings2Icon,
-  TerminalIcon,
-} from "lucide-react";
+import { TerminalSquareIcon, Settings2Icon } from "lucide-react";
 import { CreateProject } from "./ProjectDioalog/CreateProject";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/Store/store";
 import { Link } from "react-router";
-
-const data = {
-  user: {
-    name: "Dipanshu",
-    email: "Dipanshu@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: <TerminalSquareIcon />,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: <BotIcon />,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: <BookOpenIcon />,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: <Settings2Icon />,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-    },
-    {
-      name: "Travel",
-      url: "#",
-    },
-  ],
-};
+import { useUser } from "@clerk/react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useUser();
+  const data = {
+    user: {
+      name: `${user?.fullName}`,
+      email: `${user?.emailAddresses}`,
+      avatar: `${user?.imageUrl}`,
+    },
+    navMain: [
+      {
+        title: "Dashboard",
+        url: "",
+        icon: <TerminalSquareIcon />,
+        isActive: true,
+      },
+
+      {
+        title: "Settings",
+        url: "/dashboard/Account",
+        icon: <Settings2Icon />,
+      },
+    ],
+  };
+
   const project = useSelector((state: RootState) => state.project);
   console.log(project);
+  console.log("this is user data:-", user);
 
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
@@ -145,7 +54,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<Link to="/" />}>
               <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                <TerminalIcon className="size-4" />
+                <img src="/OutfitPost_AI.png" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">OutfitPost AI</span>
@@ -159,7 +68,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <CreateProject />
         <NavMain items={data.navMain} />
         <NavProjects projects={project} />
-        {/* <ScrollAreaDemo /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

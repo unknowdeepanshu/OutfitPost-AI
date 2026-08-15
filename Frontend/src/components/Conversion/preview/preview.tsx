@@ -1,20 +1,33 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-
-function PreviewImage() {
+import { Button } from "@/components/ui/button";
+import { SourceImageUrl } from "@/Store/EditImage/EditiImageSlice";
+import { useDispatch } from "react-redux";
+import { IconDownloadFilled } from "@tabler/icons-react";
+interface PreviewImage {
+  ImageUrl: string;
+}
+function PreviewImage({ ImageUrl }: PreviewImage) {
+  const dispatch = useDispatch();
+  if (ImageUrl || "") dispatch(SourceImageUrl(ImageUrl));
   return (
     <>
-      <div className="bg-muted/50 col-span-2 flex aspect-video h-full w-[stretch] items-center justify-center rounded-xl">
-        <AspectRatio
-          ratio={16 / 9}
-          className="bg-muted w-full max-w-sm rounded-lg"
-        >
-          <img
-            src="https://images.pexels.com/photos/38448887/pexels-photo-38448887.jpeg?_gl=1*3ncvpo*_gcl_au*MTkyODU1ODYzMi4xNzgzODY2Mjgx*_ga*MTYxMTk3ODA2MC4xNzgxOTQ4MDMz*_ga_8JE65Q40S6*czE3ODQzMDQ5MjEkbzI5JGcwJHQxNzg0MzA0OTIxJGo2MCRsMCRoMA.."
-            alt="Photo"
+      <div className="bg-muted/50 relative col-span-2 flex aspect-video h-full w-[stretch] items-center justify-center rounded-xl">
+        <div className="relative">
+          <AspectRatio
+            ratio={16 / 9}
+            className="bg-muted relative w-full max-w-sm rounded-lg"
+          >
+            <img
+              src={ImageUrl}
+              alt="Photo"
 
-            className="rounded-lg"
-          />
-        </AspectRatio>
+              className="rounded-lg"
+            />
+          </AspectRatio>
+        </div>
+        <Button className="absolute top-4 right-4" variant="ghost">
+          <IconDownloadFilled />
+        </Button>
       </div>
     </>
   );

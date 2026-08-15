@@ -12,6 +12,8 @@ import type { RootState } from "@/Store/store";
 import { useParams } from "react-router";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import ImageEDitUIBOX from "./ImageUI";
+import { EditFeatures } from "./Features";
 
 interface ImageEdit extends React.ComponentProps<"div"> {
   ShowImage: (name: boolean) => void;
@@ -89,10 +91,14 @@ export function ImageEdit({ ShowImage, className, ...props }: ImageEdit) {
                 <FieldLabel>Image Edit</FieldLabel>
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card"></FieldSeparator>
-              <Field>
-                <FieldLabel>Update Images</FieldLabel>
-                <div className="my-2 flex flex-col justify-around gap-2 2xl:flex-row"></div>
-              </Field>
+              {EditFeatures.map((e, index) => (
+                <Field key={index}>
+                  <ImageEDitUIBOX
+                    children={e.componentNmae}
+                    HeaderTitle={e.title}
+                  />
+                </Field>
+              ))}
             </FieldGroup>
           </form>
         </CardContent>
