@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { GetMessage } from "./chatDataThunk";
 
 type Image = {
   url: string;
@@ -71,6 +72,11 @@ export const ChatDataSlice = createSlice({
     addGender: (state, action: PayloadAction<string | null>) => {
       state.gender = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(GetMessage.fulfilled, (state, action) => {
+      return action.payload;
+    });
   },
 });
 export const {
