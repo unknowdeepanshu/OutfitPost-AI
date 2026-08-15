@@ -14,11 +14,16 @@ type ItemLabes = {
 interface SelectDemo {
   setCategory: (name: string | null) => void;
   items: ItemLabes[];
+  defaults: string | null;
 }
 
-export default function SelectDemo({ setCategory, items }: SelectDemo) {
+export default function SelectDemo({
+  setCategory,
+  items,
+  defaults,
+}: SelectDemo) {
   return (
-    <Select items={items}>
+    <Select items={items} {...(defaults ? { defaultValue: defaults } : {})}>
       <SelectTrigger className="w-full">
         <SelectValue />
       </SelectTrigger>

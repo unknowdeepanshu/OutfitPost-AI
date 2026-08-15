@@ -9,105 +9,154 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Imagejson } from "@/Store/chatdata/chatSlice";
 import { useState, useRef, useEffect } from "react";
 
-import type { AppDispatch } from "@/Store/store";
+import type { AppDispatch, RootState } from "@/Store/store";
 import {
   UploadFashionImage,
   UploadModelImage,
 } from "@/Store/chatdata/chatDataThunk";
-interface ImageUpload {
+
+interface ImageUploadProps {
   Title: string;
   Description: string;
   id: string | undefined;
 }
-export default function ImageUpload({ Title, Description, id }: ImageUpload) {
+
+export default function ImageUpload({
+  Title,
+  Description,
+  id,
+}: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const [previewUrl, setPreviewUrl] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
-  const [imageShow, setImageShow] = useState(true);
+
+  const chatjson = useSelector((state: RootState) => state.chatdata);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const isFashionImage = Title === "Fashion Image";
+
+  // Get URL from Redux/backend
+  const backendImageUrl = isFashionImage
+    ? chatjson.FashionImage?.url
+    : chatjson.ModelImage?.url;
+
+  // Show backend image when there is no newly selected local file
+  useEffect(() => {
+    if (!file && backendImageUrl) {
+      setPreviewUrl(backendImageUrl);
+    }
+
+    if (!file && !backendImageUrl) {
+      setPreviewUrl("");
+    }
+  }, [backendImageUrl, file]);
 
   function uploadImage() {
     inputRef.current?.click();
   }
 
-  const dispatch = useDispatch<AppDispatch>();
   async function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const f = e.target.files?.[0] ?? null;
-    setFile(f);
-    if (f) {
-      if (Title === "Fashion Image") {
-        console.log({ file: f, chatId: id });
-        dispatch(UploadFashionImage({ file: f, chatId: id }));
-      } else if (Title === "Model Image") {
-        console.log({ file: f, chatId: id });
-        dispatch(UploadModelImage({ file: f, chatId: id }));
-      }
-      const url = URL.createObjectURL(f);
-      setPreviewUrl(url);
-      setImageShow(false);
-      const ImageData = {
-        title: Title,
-        file: f,
-        url,
-      };
-      dispatch(Imagejson(ImageData));
+    const selectedFile = e.target.files?.[0] ?? null;
+
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+
+    const localUrl = URL.createObjectURL(selectedFile);
+
+    setPreviewUrl(localUrl);
+
+    const imageData = {
+      title: Title,
+      file: selectedFile,
+      url: localUrl,
+    };
+
+    // Update Redux immediately
+    dispatch(Imagejson(imageData));
+
+    // Upload image
+    if (Title === "Fashion Image") {
+      dispatch(
+        UploadFashionImage({
+          file: selectedFile,
+          chatId: id,
+        }),
+      );
+    }
+
+    if (Title === "Model Image") {
+      dispatch(
+        UploadModelImage({
+          file: selectedFile,
+          chatId: id,
+        }),
+      );
     }
   }
 
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
+  // Cleanup object URL
   useEffect(() => {
     return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      if (previewUrl?.startsWith("blob:")) {
+        URL.revokeObjectURL(previewUrl);
+      }
     };
   }, [previewUrl]);
-  return (
-    <>
-      <div className="flex flex-col gap-2">
-        {imageShow ? (
-          <Empty className="border border-dashed">
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <IconCloud />
-              </EmptyMedia>
-              <EmptyTitle>{Title}</EmptyTitle>
-              <EmptyDescription>{Description}</EmptyDescription>
-            </EmptyHeader>
-            <EmptyContent>
-              <Button onClick={uploadImage} variant="outline">
-                Upload Image
-              </Button>
-            </EmptyContent>
-          </Empty>
-        ) : (
-          <Empty className="border border-dashed p-2">
-            <EmptyContent>
-              <button
-                type="button"
-                onClick={uploadImage}
-                className="flex w-full items-center justify-center"
-              >
-                <img
-                  src={previewUrl ?? undefined}
-                  alt={Title}
-                  className="max-h-64 max-w-full object-contain"
-                />
-              </button>
-            </EmptyContent>
-          </Empty>
-        )}
 
-        <Input
-          ref={inputRef}
-          id="picture"
-          type="file"
-          accept="image/jpeg, image/png, .jpg, .jpeg, .png"
-          style={{ display: "none" }}
-          onChange={onFileChange}
-        />
-      </div>
-    </>
+  const hasImage = Boolean(previewUrl);
+
+  return (
+    <div className="flex flex-col gap-2">
+      {hasImage ? (
+        <Empty className="border border-dashed p-2">
+          <EmptyContent>
+            <button
+              type="button"
+              onClick={uploadImage}
+              className="flex w-full items-center justify-center"
+            >
+              <img
+                src={previewUrl}
+                alt={Title}
+                className="max-h-64 max-w-full object-contain"
+              />
+            </button>
+          </EmptyContent>
+        </Empty>
+      ) : (
+        <Empty className="border border-dashed">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <IconCloud />
+            </EmptyMedia>
+
+            <EmptyTitle>{Title}</EmptyTitle>
+            <EmptyDescription>{Description}</EmptyDescription>
+          </EmptyHeader>
+
+          <EmptyContent>
+            <Button type="button" onClick={uploadImage} variant="outline">
+              Upload Image
+            </Button>
+          </EmptyContent>
+        </Empty>
+      )}
+
+      <Input
+        ref={inputRef}
+        id={`${Title}-${id}`}
+        type="file"
+        accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+        className="hidden"
+        onChange={onFileChange}
+      />
+    </div>
   );
 }
