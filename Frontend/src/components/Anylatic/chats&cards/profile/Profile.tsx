@@ -12,6 +12,7 @@ import { useUser, UserAvatar } from "@clerk/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Separator } from "../../../ui/separator";
+import { api } from "@/services/axios";
 
 export function Profile() {
   const [update, setUpdate] = useState(false);
@@ -100,6 +101,13 @@ function Updateprofile({ show }: Updates) {
 
 function ProfileDetails({ show }: Updates) {
   const { user } = useUser();
+  async function deletedUser() {
+    async function calleddelete() {
+      const res = await api.get("/auth/deletedUser");
+      return res.data;
+    }
+    console.log("deleted", await calleddelete());
+  }
   return (
     <>
       <CardContent>
@@ -143,7 +151,13 @@ function ProfileDetails({ show }: Updates) {
         <Button variant="outline" onClick={() => show(true)}>
           Update
         </Button>
-        <Button>Delete</Button>
+        <Button
+          onClick={() => {
+            deletedUser();
+          }}
+        >
+          Delete
+        </Button>
       </CardFooter>
     </>
   );
