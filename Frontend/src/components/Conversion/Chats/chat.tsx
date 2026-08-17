@@ -8,14 +8,15 @@ import {
 } from "@/components/ui/field";
 import { SelectDemo, ImageUpload, TextareaButton } from "./Features";
 import { useDispatch, useSelector } from "react-redux";
-import { Catgory, addGender } from "@/Store/chatdata/chatSlice";
+import { Catgory, addGender, setUploading } from "@/Store/chatdata/chatSlice";
 import type { AppDispatch, RootState } from "@/Store/store";
 import { useParams } from "react-router";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { api } from "@/services/axios";
+import { CreateMessage } from "@/Store/chatdata/chatDataThunk";
+import { generatedImage } from "@/services/imageUsage";
 type Image = {
   url: string;
   file?: File | null;
@@ -46,6 +47,7 @@ export function Chats({ ShowImage, chatjson, className, ...props }: Chats) {
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
+    dispatch(setUploading(true));
     if ((chatjson.Description ?? "").toString().trim().length === 0) {
       console.log(
         "this is description",
@@ -84,23 +86,24 @@ export function Chats({ ShowImage, chatjson, className, ...props }: Chats) {
       toast.error("choose the model Image");
       return;
     }
-    async function sendDatas() {
-      async function sendMessages() {
-        const sendData = {
+    try {
+      await dispatch(
+        CreateMessage({
           ProjectId: threadId,
           category: chatjson.SelectedCatgory,
           platform: chatjson.SelectedPlatform,
           includeText: chatjson.Textinclude,
           Description: chatjson.Description,
           gender: chatjson.gender,
-        };
-        const res = await api.post("message/create", sendData);
-        console.log("this is from backend", res.data);
-        return res.data;
-      }
-      await sendMessages();
+        }),
+      ).unwrap();
+
+      toast.success("Image generated successfully");
+      generatedImage();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to generate image");
     }
-    sendDatas();
     console.log("this is chatdata", chatjson);
     toast.success("uploading");
   };
@@ -176,6 +179,7 @@ export function Chats({ ShowImage, chatjson, className, ...props }: Chats) {
               <Field>
                 <FieldLabel>Describe your product</FieldLabel>
                 <TextareaButton
+                  textAdd={chatjson.Textinclude}
                   description={chatjson.Description}
                   seletedValue={chatjson.SelectedPlatform}
                 />

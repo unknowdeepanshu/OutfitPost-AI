@@ -8,58 +8,123 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ScaleNumbers } from "@/Store/EditImage/EditiImageSlice";
-import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-function AlPhotoEnhance() {
-  return (
-    <>
-      <div className="flex flex-col gap-2 p-4">
-        <h4>Scale number</h4>
-        <ScaleNumber items={number} />
-      </div>
-    </>
-  );
-}
-type ItemLabes = {
-  label: String;
-  value: Number;
+import { useParams } from "react-router";
+import type { RootState } from "@/Store/store";
+
+import { api } from "@/services/axios";
+import { setUploading } from "@/Store/EditImage/EditiImageSlice";
+import { toast } from "sonner";
+import { useState } from "react";
+
+import {
+  addNewImageUrl,
+  addpreviousImageUrl,
+} from "@/Store/chatdata/chatSlice";
+import { generatedImage } from "@/services/imageUsage";
+type ItemLabel = {
+  label: string;
+  value: number;
 };
-interface SelectDemo {
-  items: ItemLabes[];
+
+interface ScaleNumberProps {
+  items: ItemLabel[];
 }
-const number = [
-  { label: "1", value: 1 },
-  { label: "2", value: 2 },
-  { label: "4", value: 4 },
+
+const scaleOptions: ItemLabel[] = [
+  {
+    label: "1x",
+    value: 1,
+  },
+  {
+    label: "2x",
+    value: 2,
+  },
+  {
+    label: "4x",
+    value: 4,
+  },
 ];
 
-function ScaleNumber({ items }: SelectDemo) {
-  const [number, setNumber] = useState<Number>(0);
+function AIPhotoEnhance() {
+  return (
+    <div className="flex flex-col gap-3 p-4">
+      <h4 className="text-sm font-medium">Scale Number</h4>
+
+      <ScaleNumber items={scaleOptions} />
+    </div>
+  );
+}
+
+function ScaleNumber({ items }: ScaleNumberProps) {
+  const [scale, setScale] = useState<number | null>(null);
+
+  const { threadId } = useParams();
   const dispatch = useDispatch();
-  const submite = () => {
-    dispatch(ScaleNumbers(number));
-    console.log("number", number);
+
+  const { src_file_url, isUploading } = useSelector(
+    (state: RootState) => state.editImag,
+  );
+
+  const submit = async () => {
+    if (!scale) {
+      toast.error("Select a scale");
+      return;
+    }
+
+    if (!src_file_url) {
+      toast.error("Image not found");
+      return;
+    }
+
+    try {
+      dispatch(setUploading(true));
+
+      const response = await api.post("/edit/editImage", {
+        src_file_url,
+        ProjectId: threadId,
+        scale,
+        EditType: "enhance",
+      });
+
+      console.log("AI Enhance:", response.data);
+      const { oldEditedImage, EditedImage } = response.data?.data;
+
+      dispatch(addpreviousImageUrl({ url: oldEditedImage?.url || "" }));
+
+      dispatch(addNewImageUrl({ url: EditedImage?.url || "" }));
+      const usage = await generatedImage();
+
+      console.log(usage);
+      toast.success("Image enhanced successfully");
+    } catch (error) {
+      console.error("AI enhance error:", error);
+      toast.error("Failed to enhance image");
+    } finally {
+      dispatch(setUploading(false));
+    }
   };
-  useEffect(() => {}, [number]);
+
   return (
     <>
-      <Select items={items}>
+      <Select
+        value={scale?.toString() ?? ""}
+        onValueChange={(value) => {
+          setScale(Number(value));
+        }}
+        disabled={isUploading}
+      >
         <SelectTrigger className="w-full">
-          <SelectValue />
+          <SelectValue placeholder="Select scale" />
         </SelectTrigger>
+
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Scale Number</SelectLabel>
-            {items.map((item, index) => (
-              <SelectItem
-                key={index}
-                value={item.value}
-                onClick={() => {
-                  setNumber(item.value);
-                }}
-              >
+
+            {items.map((item) => (
+              <SelectItem key={item.value} value={item.value.toString()}>
                 {item.label}
               </SelectItem>
             ))}
@@ -67,9 +132,11 @@ function ScaleNumber({ items }: SelectDemo) {
         </SelectContent>
       </Select>
 
-      <Button onClick={submite}>Apply</Button>
+      <Button onClick={submit} disabled={isUploading || !scale}>
+        {isUploading ? "Enhancing..." : "Apply"}
+      </Button>
     </>
   );
 }
 
-export default AlPhotoEnhance;
+export default AIPhotoEnhance;

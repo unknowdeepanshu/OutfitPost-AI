@@ -11,7 +11,6 @@ import Dashboard from "@/pages/Dashboard/DashboardSkeleton.tsx";
 import App from "@/pages/Landing/App.tsx";
 import ProtectRoutes from "@/components/ProtecteRoutes/ProtecteRoutes.tsx";
 import Setting from "@/pages/setting/setting.tsx";
-import Anylatic from "@/components/Anylatic/Anylatic.tsx";
 import Page404 from "@/pages/NoFound/Notfound.tsx";
 import { AxiosInterceptor } from "./services/axios.ts";
 
@@ -24,9 +23,8 @@ const Route = createBrowserRouter([
     path: "/dashboard",
     element: <ProtectRoutes Children={<Dashboard />} />,
     children: [
-      { path: "", element: <Anylatic /> },
+      { path: "", element: <Setting /> },
       { path: "project/:threadId", element: <Conversion /> },
-      { path: "Account", element: <Setting /> },
     ],
   },
   {

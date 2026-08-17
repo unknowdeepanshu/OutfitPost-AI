@@ -1,29 +1,9 @@
 import { api } from "@/services/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-type Image = {
-  url: string;
-  file?: File | null;
-};
-
-interface ChatData {
-  SelectedCatgory: string | null;
-  FashionImage: Image;
-  ModelImage: Image;
-  gender: string | null;
-  Description: string;
-  Textinclude: boolean;
-  SelectedPlatform: string | null;
-  isUploading: boolean;
-}
-
 type UploadImagePayload = {
   file: File;
   chatId: any;
-};
-
-type SubmitTextPayload = {
-  data: ChatData;
 };
 
 export const UploadFashionImage = createAsyncThunk(
@@ -62,28 +42,41 @@ export const UploadModelImage = createAsyncThunk(
   },
 );
 
-export const submitUserTextData = createAsyncThunk(
-  "chatData/submitUserTextData",
-  async ({ data }: SubmitTextPayload, { rejectWithValue }) => {
+export const CreateMessage = createAsyncThunk(
+  "chatdata/createMessage",
+  async (
+    {
+      ProjectId,
+      category,
+      platform,
+      includeText,
+      Description,
+      gender,
+    }: {
+      ProjectId: string | undefined;
+      category: string | null;
+      platform: string | null;
+      includeText: boolean;
+      Description: string;
+      gender: string | null;
+    },
+    { rejectWithValue },
+  ) => {
     try {
-      const payload = {
-        SelectedCatgory: data.SelectedCatgory ?? "",
-        SelectedPlatform: data.SelectedPlatform ?? "",
-        gender: data.gender ?? "",
-        Description: data.Description,
-        Textinclude: data.Textinclude,
-        FashionImageUrl: data.FashionImage.url ?? "",
-        ModelImageUrl: data.ModelImage.url ?? "",
-      };
-
-      const response = await api.post(
-        `imageUpload/userUploadTextData`,
-        payload,
-      );
+      const response = await api.post("message/create", {
+        ProjectId,
+        category,
+        platform,
+        includeText,
+        Description,
+        gender,
+      });
 
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data ?? "Something went wrong");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create message",
+      );
     }
   },
 );
@@ -101,14 +94,34 @@ interface BackendMessage {
     url?: string;
     publicId?: string;
   };
-
+  currentPosterImage?: {
+    url?: string;
+    publicId?: string;
+  };
+  previousImageUrl?: {
+    url?: string;
+    publicId?: string;
+  };
+  NewImageUrl?: {
+    url?: string;
+    publicId?: string;
+  };
   category?: string;
   platform?: string;
   Description?: string;
   includeText?: boolean;
   gender?: string;
 }
-
+interface ImageHistory {
+  NewImageUrl?: {
+    url?: string;
+    publicId?: string;
+  };
+  previousImageUrl?: {
+    url?: string;
+    publicId?: string;
+  };
+}
 export const GetMessage = createAsyncThunk(
   "chatData/GetMessage",
   async ({ threadId }: GetMessagePayload, { rejectWithValue }) => {
@@ -118,49 +131,104 @@ export const GetMessage = createAsyncThunk(
       });
 
       const chatData: BackendMessage[] = response.data?.data?.chatData ?? [];
+      const ImageHistory: ImageHistory =
+        response.data?.data?.ImageHistory ?? {};
+      console.log(
+        "this csdfugsduyf",
+        Object.entries(ImageHistory).length !== 0,
+      );
+      if (Object.entries(ImageHistory).length === 0) {
+        const message = chatData[0];
 
-      const message = chatData[0];
+        // No saved message data yet
+        if (!message) {
+          return {
+            SelectedCatgory: null,
+            FashionImage: {
+              url: "",
+            },
+            ModelImage: {
+              url: "",
+            },
+            gender: null,
+            Description: "",
+            Textinclude: false,
+            SelectedPlatform: null,
+            isUploading: false,
+          };
+        }
+        const project = {
+          SelectedCatgory: message.category ?? null,
 
-      // No saved message data yet
-      if (!message) {
-        return {
-          SelectedCatgory: null,
           FashionImage: {
-            url: "",
+            url: message.productImage?.url ?? "",
           },
+
           ModelImage: {
-            url: "",
+            url: message.modelImage?.url ?? "",
           },
-          gender: null,
-          Description: "",
-          Textinclude: false,
-          SelectedPlatform: null,
+
+          gender: message.gender ?? null,
+
+          Description: message.Description ?? "",
+
+          Textinclude: message.includeText ?? false,
+
+          SelectedPlatform: message.platform ?? null,
+          currentPosterImage: { url: message.currentPosterImage?.url ?? " " },
           isUploading: false,
         };
+        console.log("this si without imageHistory", project);
+        return project;
+      } else {
+        const message = chatData[0];
+
+        // No saved message data yet
+        if (!message) {
+          return {
+            SelectedCatgory: null,
+            FashionImage: {
+              url: "",
+            },
+            ModelImage: {
+              url: "",
+            },
+            gender: null,
+            Description: "",
+            Textinclude: false,
+            SelectedPlatform: null,
+            isUploading: false,
+          };
+        }
+        const project = {
+          SelectedCatgory: message.category ?? null,
+
+          FashionImage: {
+            url: message.productImage?.url ?? "",
+          },
+
+          ModelImage: {
+            url: message.modelImage?.url ?? "",
+          },
+          NewImageUrl: {
+            url: ImageHistory.NewImageUrl?.url ?? "",
+          },
+          previousImageUrl: {
+            url: ImageHistory.previousImageUrl?.url ?? "",
+          },
+          gender: message.gender ?? null,
+
+          Description: message.Description ?? "",
+
+          Textinclude: message.includeText ?? false,
+
+          SelectedPlatform: message.platform ?? null,
+          currentPosterImage: { url: message.currentPosterImage?.url ?? " " },
+          isUploading: false,
+        };
+        console.log("this si without imageHistory", project);
+        return project;
       }
-      const project = {
-        SelectedCatgory: message.category ?? null,
-
-        FashionImage: {
-          url: message.productImage?.url ?? "",
-        },
-
-        ModelImage: {
-          url: message.modelImage?.url ?? "",
-        },
-
-        gender: message.gender ?? null,
-
-        Description: message.Description ?? "",
-
-        Textinclude: message.includeText ?? false,
-
-        SelectedPlatform: message.platform ?? null,
-
-        isUploading: false,
-      };
-      console.log("this si proesfdesdf", project);
-      return project;
     } catch (error: any) {
       return rejectWithValue(error.response?.data ?? "Failed to fetch message");
     }

@@ -1,9 +1,9 @@
-import { Profile } from "@/components/profile/Profile";
+import Anylatic from "@/components/Anylatic/Anylatic";
 
 function Setting() {
   return (
     <>
-      <Profile />
+      <Anylatic />
     </>
   );
 }
