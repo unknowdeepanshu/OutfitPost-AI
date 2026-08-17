@@ -181,6 +181,24 @@ npm run dev
 
 The gateway runs on port `8000` by default.
 
+# Text Placement
+When text is required, describe its position using:
+
+{position: text}
+
+The position should specify where the text should appear in the image, such as:
+
+Top center
+Top left
+Top right
+Center
+Bottom center
+Bottom left
+Bottom right
+Example:
+
+{top-center: "Summer Collection"} {center-left: "New Arrivals"} {bottom-center: "Shop Now"}
+
 ## Environment Variables
 
 Do not commit real secrets to GitHub.
