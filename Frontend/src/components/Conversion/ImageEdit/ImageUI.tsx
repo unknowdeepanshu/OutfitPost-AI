@@ -1,15 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useState, type ComponentType } from "react";
+import { useEffect, useState, type ComponentType } from "react";
 import { IconChevronUp, IconChevronDown } from "@tabler/icons-react";
-type ImageEDitUIBOXProps = {
+import { SourceImageUrl } from "@/Store/EditImage/EditiImageSlice";
+import type { RootState, AppDispatch } from "../../../Store/store";
+import { useSelector, useDispatch } from "react-redux";
+type ImageEDitBoxProps = {
   children: ComponentType | ComponentType[];
   HeaderTitle: String;
 };
 
-function ImageEDitUIBOX({ children, HeaderTitle }: ImageEDitUIBOXProps) {
+function ImageEditBox({ children, HeaderTitle }: ImageEDitBoxProps) {
   const ChildComponents = Array.isArray(children) ? children : [children];
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const chatjson = useSelector((state: RootState) => state.chatdata);
+  const imageurl = chatjson.currentPosterImage?.url;
+  if (imageurl === undefined) {
+    dispatch(SourceImageUrl(imageurl));
+  } else {
+    dispatch(SourceImageUrl(imageurl));
+  }
   return (
     <>
       <Card>
@@ -35,4 +46,4 @@ function ImageEDitUIBOX({ children, HeaderTitle }: ImageEDitUIBOXProps) {
   );
 }
 
-export default ImageEDitUIBOX;
+export default ImageEditBox;

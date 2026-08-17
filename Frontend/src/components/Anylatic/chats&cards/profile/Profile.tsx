@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { useUser, UserAvatar } from "@clerk/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../../ui/separator";
 
 export function Profile() {
   const [update, setUpdate] = useState(false);

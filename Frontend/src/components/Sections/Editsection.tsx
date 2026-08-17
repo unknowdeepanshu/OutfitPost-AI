@@ -3,23 +3,12 @@ import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 function ImageEditSection() {
   const ImageEdit: imageEditSection[] = [
     {
-      ImageEditHeader: "AI Object Removal",
-      ImageEditUrl: "clothes.webp",
-      ImageEditPara:
-        "Remove unwanted objects with precision from your photos while preserving intricate details. ",
-    },
-    {
       ImageEditHeader: "Al Photo Enhance",
       ImageEditUrl: "bag.webp",
       ImageEditPara:
         "Sharpen, upscale, denoise, and fix colors to transform low-resolution images into high-quality masterpieces",
     },
-    {
-      ImageEditHeader: "AI Image Extender",
-      ImageEditUrl: "shoues.webp",
-      ImageEditPara:
-        "Expand your photos with our AI Image Extender. Seamlessly broaden visuals for all ratios",
-    },
+
     {
       ImageEditHeader: "Al Photo Background Removal",
       ImageEditUrl: "Hat.webp",
@@ -31,12 +20,6 @@ function ImageEditSection() {
       ImageEditUrl: "Scarves.webp",
       ImageEditPara:
         "Swap backgrounds with a single click, then use text prompts to control or generate a new setting. This is ideal for industries requiring rapid product image updates, such as e-commerce and digital content creation.",
-    },
-    {
-      ImageEditHeader: "AI Replace",
-      ImageEditUrl: "Scarves.webp",
-      ImageEditPara:
-        "Effortlessly remove unwanted objects from your photos and replace them with text or new elements using AI Replace. ",
     },
   ];
   return (

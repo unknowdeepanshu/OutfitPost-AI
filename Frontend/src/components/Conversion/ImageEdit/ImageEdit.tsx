@@ -12,7 +12,7 @@ import type { RootState } from "@/Store/store";
 import { useParams } from "react-router";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import ImageEDitUIBOX from "./ImageUI";
+import ImageEditBox from "./ImageUI";
 import { EditFeatures } from "./Features";
 
 interface ImageEdit extends React.ComponentProps<"div"> {
@@ -93,7 +93,7 @@ export function ImageEdit({ ShowImage, className, ...props }: ImageEdit) {
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card"></FieldSeparator>
               {EditFeatures.map((e, index) => (
                 <Field key={index}>
-                  <ImageEDitUIBOX
+                  <ImageEditBox
                     children={e.componentNmae}
                     HeaderTitle={e.title}
                   />

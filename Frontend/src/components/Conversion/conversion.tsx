@@ -7,6 +7,7 @@ import { useParams } from "react-router";
 import { GetMessage } from "@/Store/chatdata/chatDataThunk";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../../Store/store";
+import EditPreviewImage from "./preview/editPreview";
 
 function Conversion() {
   const [showImage, setShowImageEdit] = useState(true);
@@ -52,17 +53,15 @@ function Conversion() {
 
   // console.log("Image edit:", iamgdata);
 
-  const url: string =
-    "https://images.pexels.com/photos/38448887/pexels-photo-38448887.jpeg?_gl=1*3ncvpo*_gcl_au*MTkyODU1ODYzMi4xNzgzODY2Mjgx*_ga*MTYxMTk3ODA2MC4xNzgxOTQ4MDMz*_ga_8JE65Q40S6*czE3ODQzMDQ5MjEkbzI5JGcwJHQxNzg0MzA0OTIxJGo2MCRsMCRoMA..";
+  const already: string = "";
 
   if (isLoading) {
     return (
       <div className="h-full w-full items-center justify-center">
-        Loading chat...
+        <p>Loading chat...</p>
       </div>
     );
   }
-
   return (
     <div className="grid flex-1 grid-cols-3 gap-4 md:grid-cols-3">
       <div className="flex h-full w-[stretch] rounded-xl">
@@ -72,8 +71,15 @@ function Conversion() {
           <ImageEdit ShowImage={setShowImageEdit} />
         )}
       </div>
-
-      <PreviewImage ImageUrl={url} />
+      {showImage ? (
+        <PreviewImage ImageUrl={chatjson.currentPosterImage?.url ?? already} />
+      ) : (
+        <EditPreviewImage
+          currentImageUrl={chatjson.currentPosterImage?.url ?? already}
+          previousImageUrl={chatjson.previousImageUrl?.url ?? already}
+          newImageUrl={chatjson.NewImageUrl?.url ?? already}
+        />
+      )}
     </div>
   );
 }

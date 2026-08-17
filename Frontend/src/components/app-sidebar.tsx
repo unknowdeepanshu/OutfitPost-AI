@@ -34,12 +34,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: <TerminalSquareIcon />,
         isActive: true,
       },
-
-      {
-        title: "Settings",
-        url: "/dashboard/Account",
-        icon: <Settings2Icon />,
-      },
     ],
   };
 

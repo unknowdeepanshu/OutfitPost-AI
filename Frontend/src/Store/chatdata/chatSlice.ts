@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { GetMessage } from "./chatDataThunk";
+import { GetMessage, CreateMessage } from "./chatDataThunk";
 
 type Image = {
   url: string;
@@ -22,6 +22,9 @@ interface ChatData {
   Textinclude: boolean;
   SelectedPlatform: string | null;
   isUploading: boolean;
+  currentPosterImage: Image;
+  NewImageUrl: Image;
+  previousImageUrl: Image;
 }
 
 const initialState: ChatData = {
@@ -33,6 +36,9 @@ const initialState: ChatData = {
   Description: " ",
   Textinclude: false,
   isUploading: false,
+  currentPosterImage: { url: " " },
+  NewImageUrl: { url: " " },
+  previousImageUrl: { url: " " },
 };
 
 export const ChatDataSlice = createSlice({
@@ -72,16 +78,49 @@ export const ChatDataSlice = createSlice({
     addGender: (state, action: PayloadAction<string | null>) => {
       state.gender = action.payload;
     },
+    addPreview: (state, action: PayloadAction<Image>) => {
+      state.currentPosterImage = action.payload;
+    },
+    addNewImageUrl: (state, action: PayloadAction<Image>) => {
+      state.NewImageUrl = action.payload;
+    },
+    addpreviousImageUrl: (state, action: PayloadAction<Image>) => {
+      state.previousImageUrl = action.payload;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(GetMessage.fulfilled, (state, action) => {
-      return action.payload;
-    });
+    builder
+      .addCase(GetMessage.fulfilled, (state, action) => {
+        return action.payload;
+      })
+
+      .addCase(CreateMessage.pending, (state) => {
+        state.isUploading = true;
+      })
+
+      .addCase(CreateMessage.fulfilled, (state, action) => {
+        state.isUploading = false;
+
+        const newImage = action.payload?.message?.NewImage;
+
+        if (newImage) {
+          state.currentPosterImage = {
+            url: newImage.url,
+          };
+        }
+      })
+
+      .addCase(CreateMessage.rejected, (state) => {
+        state.isUploading = false;
+      });
   },
 });
 export const {
   addDescribe,
   Catgory,
+  addPreview,
+  addNewImageUrl,
+  addpreviousImageUrl,
   Platform,
   addGender,
   Imagejson,
