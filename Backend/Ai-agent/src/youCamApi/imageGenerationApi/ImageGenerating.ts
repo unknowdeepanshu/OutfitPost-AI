@@ -95,7 +95,7 @@ async function GeneratedImage(taskId: string) {
 
 async function GenerateImageurl(payload: payload) {
   const task = await GeneratedTaskId(payload);
-
+  console.log("task id", task);
   const image = await waitForTaskResult<imgaeUrl>(
     task.data.task_id,
     GeneratedImage,

@@ -21,7 +21,7 @@ export async function mergeImages(data: userData) {
   const payload: payloadOne = {
     src_file_url: data.ModelImage.url,
     ref_file_url: data.FashionImage.url,
-    gender: data.gender,
+    gender: data.gender.toLocaleLowerCase(),
     style: "random",
   };
   const ClothsPayload: payloadTwo = {

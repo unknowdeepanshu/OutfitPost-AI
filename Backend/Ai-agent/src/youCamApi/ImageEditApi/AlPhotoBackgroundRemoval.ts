@@ -76,5 +76,5 @@ export default async function AlPhotoBackgroundRemoval(payload: payload) {
       failureStatuses: ["error"],
     },
   );
-  return image;
+  return image.url;
 }

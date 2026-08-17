@@ -3,5 +3,5 @@ import { EditImage } from "../controllers/EditImage.controllers.ts";
 
 const router = Router();
 
-router.route("/EditImage").post(EditImage);
+router.post("/EditImage", EditImage);
 export default router;
