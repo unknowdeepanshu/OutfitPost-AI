@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { requireAuth } from "@clerk/express";
-import { syncCurrentUser } from "../controllers/user.controller.js";
+import { editImages } from "../controllers/edit.controller.js";
 
 const router = Router();
 
-router.post("/sync", syncCurrentUser);
+router.post("/editImage", editImages);
 
 export default router;

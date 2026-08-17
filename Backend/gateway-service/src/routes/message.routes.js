@@ -1,17 +1,14 @@
 import { Router } from "express";
 
 import {
-    createMessage,
-    getMessages,
-    processMessage
+  createMessage,
+  getMessages,
 } from "../controllers/message.controller.js";
 
-const router = Router({ mergeParams: true });
+const router = Router();
 
-router.post("/", createMessage);
+router.post("/create", createMessage);
 
-router.get("/", getMessages);
-
-router.post("/:messageId/process", processMessage);
+router.post("/messageid", getMessages);
 
 export default router;

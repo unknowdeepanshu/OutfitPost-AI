@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { POSTER_CATEGORY, SOCIAL_PLATFORM } from "./model.constants.js";
 const conversationMessageSchema = new Schema(
   {
     messageId: {

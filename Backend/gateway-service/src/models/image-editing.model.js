@@ -8,38 +8,46 @@ const imageEditingSchema = new Schema(
       required: true,
       index: true,
     },
-
+    MessageID: {
+      type: String,
+      trim: true,
+      maxlength: 160,
+    },
     editedImages: [
       {
-        version: {
-          type: Number,
-          required: true,
+        previousImageUrl: {
+          url: {
+            type: String,
+            default: "",
+            trim: true,
+          },
+
+          publicId: {
+            type: String,
+            default: "",
+            trim: true,
+          },
         },
 
-        imageUrl: {
-          type: String,
-          required: true,
-        },
+        NewImageUrl: {
+          url: {
+            type: String,
+            default: "",
+            trim: true,
+          },
 
-        prompt: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-
-        editedAt: {
-          type: Date,
-          default: Date.now,
+          publicId: {
+            type: String,
+            default: "",
+            trim: true,
+          },
         },
       },
     ],
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-export const ImageEditing = mongoose.model(
-  "ImageEditing",
-  imageEditingSchema
-);
+export const ImageEditing = mongoose.model("ImageEditing", imageEditingSchema);

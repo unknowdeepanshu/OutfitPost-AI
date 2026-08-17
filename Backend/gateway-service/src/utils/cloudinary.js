@@ -9,6 +9,11 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+console.log({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const uploadonCloudinary = async (LocalFilePath) => {
   if (!LocalFilePath) return null;
@@ -26,7 +31,6 @@ const uploadonCloudinary = async (LocalFilePath) => {
 };
 export const deleteFromCloudinary = async (publicId) => {
   const result = await cloudinary.uploader.destroy(publicId);
-  console.log(result);
   if (result.result !== "ok" && result.result !== "not found") {
     throw new Error("Failed to delete old Cloudinary image");
   }

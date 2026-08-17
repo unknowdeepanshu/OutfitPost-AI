@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { POSTER_CATEGORY, SOCIAL_PLATFORM } from "./model.constants.js";
 
 const messageData = new Schema(
   {
@@ -32,21 +31,29 @@ const messageData = new Schema(
     },
 
     currentPosterImage: {
-      type: String,
-      default: "",
-      trim: true,
+      url: {
+        type: String,
+        default: "",
+        trim: true,
+      },
+
+      publicId: {
+        type: String,
+        default: "",
+        trim: true,
+      },
     },
 
     category: {
       type: String,
-      enum: POSTER_CATEGORY,
       required: true,
+      default: null,
     },
 
     platform: {
       type: String,
-      enum: SOCIAL_PLATFORM,
       required: true,
+      default: null,
     },
     Description: {
       type: String,
@@ -55,13 +62,13 @@ const messageData = new Schema(
 
     includeText: {
       type: Boolean,
-      default: true,
+      default: false,
     },
 
     gender: {
       type: String,
-      enum: ["male", "female", "other"],
-      default: "other",
+      enum: ["Male", "Female"],
+      default: null,
     },
   },
   {
