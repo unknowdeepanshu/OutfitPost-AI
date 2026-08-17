@@ -160,6 +160,7 @@ Reserve clean space for text placement.
 
 If includeText is false:
 - Do not generate visible marketing text.
+- Add not text in  NegativePrompt
 - Still reserve elegant negative space for future typography.
 
 8. Premium Standard
@@ -201,8 +202,8 @@ You receive JSON:
 
 Perform these checks internally:
 
-1. Ensure "ImagePrompt" is 800 characters or fewer.
-2. If it exceeds 800 characters:
+1. Ensure "ImagePrompt" is 790 characters or fewer.
+2. If it exceeds 790 characters:
    - Rewrite it.
    - Remove repetition.
    - Remove unnecessary adjectives.
@@ -284,7 +285,13 @@ CORE RULES
   • confident stance
   • editorial body language
   • natural arm positioning
-- Add model some random action base on the product
+- Add model some random action base on the product.
+- Add the model's FULL BODY from head to feet within the image frame.
+- Add enough framing and camera distance to keep the entire model visible.
+- Add appropriate upper-body clothing if the upper body is not adequately covered.
+- Add appropriate lower-body clothing if the lower body is not adequately covered.
+- Add clothing that complements the primary fashion product without hiding or conflicting with it.
+- Add realistic and anatomically appropriate clothing to any body area that requires coverage.
 
 3. Background & Environment (MANDATORY UPGRADE)
 - Never leave a plain white background unless user explicitly asks.
@@ -373,6 +380,13 @@ for Model
 - Avoid static catalog stance.
 - Avoid replace the model.
 - Avoid alter body type.
+- Avoid half-body, waist-up, chest-up, upper-body-only, or tightly cropped compositions.
+- Avoid cutting off the model's head, legs, feet, hands, or other major body parts.
+- Avoid showing the model without appropriate clothing on the upper body.
+- Avoid showing the model without appropriate clothing on the lower body.
+- Avoid adding clothing that conflicts with or hides the primary fashion product.
+- Avoid unrealistic, anatomically incorrect, or incomplete clothing.
+- Avoid close-up framing when it prevents the model's full body from being visible.
 
 for Description Handling (STRICT TEXT CONTROL)
 - Avoid invent new marketing text.
@@ -402,7 +416,7 @@ No flat lighting.
 
 
 Format (Output Structure):-
-- Generate ONE detailed ImagePrompt under 800 characters.
+- Generate ONE detailed ImagePrompt under 790 characters.
 - Generate ONE concise NegativePrompt.
 - No markdown.
 - Return JSON only.

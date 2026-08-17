@@ -81,5 +81,5 @@ export default async function AIPhotoEnhance(payload: payload) {
       failureStatuses: ["error"],
     },
   );
-  return image;
+  return image.url;
 }

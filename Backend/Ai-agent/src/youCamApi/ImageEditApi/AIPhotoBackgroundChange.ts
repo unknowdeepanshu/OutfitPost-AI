@@ -83,5 +83,5 @@ export default async function AIPhotoBackgroundChange(payload: payload) {
       failureStatuses: ["error"],
     },
   );
-  return image;
+  return image.url;
 }

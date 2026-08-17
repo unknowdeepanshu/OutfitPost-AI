@@ -5,6 +5,5 @@ export interface EditImageData {
 type ImageData = {
   src_file_url: String;
   scale: Number;
-  msk_file_url: String;
   prompt: String;
 };
