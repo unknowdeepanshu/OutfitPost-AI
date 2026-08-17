@@ -1,6 +1,7 @@
 # OutfitPost-AI
 
 AI-powered fashion poster creation platform that helps fashion creators, clothing brands, and social-media marketers turn product and model images into polished fashion visuals.
+<img width="1536" height="1024" alt="ChatGPT Image Aug 17, 2026, 08_35_57 PM" src="https://github.com/user-attachments/assets/5f891f4d-813e-4d7b-b0bf-8ab02180175f" />
 
 ## Why was OutfitPost-AI made?
 
