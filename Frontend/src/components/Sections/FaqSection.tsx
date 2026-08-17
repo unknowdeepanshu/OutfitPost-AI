@@ -78,13 +78,43 @@ function AccordionDemo() {
       value: "ImageSupported",
       Question: "Which image formats are supported?",
       Answer:
-        "OutfitPost AI supports JPG, JPEG, PNG, and WebP image formats for both product and model uploads.",
+        "OutfitPost AI supports JPG, JPEG, and PNG image formats for both product and model uploads.",
     },
     {
       value: "ImageEdit",
       Question: "Can I edit the generated posters?",
       Answer:
         "Yes. After generation, you can download your poster or make additional edits before exporting the final version.",
+    },
+    {
+      value: "ImageGeneration",
+      Question: "How long does it take to generate a poster?",
+      Answer:
+        "Most posters are generated within a few moments after you submit your images and preferences.",
+    },
+    {
+      value: "SocialMedia",
+      Question: "Which platforms can I create posters for?",
+      Answer:
+        "You can create posters optimized for popular social media platforms and choose your preferred platform during the creation process.",
+    },
+    {
+      value: "ProductImage",
+      Question: "Can I use my own fashion product images?",
+      Answer:
+        "Yes. You can upload your own clothing, accessories, and other fashion product images to create your poster.",
+    },
+    {
+      value: "Download",
+      Question: "Can I download my generated poster?",
+      Answer:
+        "Yes. Once your poster is generated, you can download the final image directly to your device.",
+    },
+    {
+      value: "AI",
+      Question: "Do I need design skills to use OutfitPost AI?",
+      Answer:
+        "No. OutfitPost AI handles the design process for you, so you can create professional fashion posters without advanced design skills.",
     },
   ];
 

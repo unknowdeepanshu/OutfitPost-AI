@@ -110,7 +110,9 @@ function Footer() {
                   }}
                 >
                   <Card className="items-center justify-center rounded-2xl p-3">
-                    <IconBrandX stroke={2} />
+                    <a href="https://x.com/DipanshuVi6799">
+                      <IconBrandX stroke={2} />
+                    </a>
                   </Card>
                 </motion.span>
               </motion.div>

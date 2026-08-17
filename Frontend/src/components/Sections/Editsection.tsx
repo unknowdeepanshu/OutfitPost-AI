@@ -4,20 +4,23 @@ function ImageEditSection() {
   const ImageEdit: imageEditSection[] = [
     {
       ImageEditHeader: "Al Photo Enhance",
-      ImageEditUrl: "bag.webp",
+      ImageEditUrl:
+        "https://plugins-media.makeupar.com/YCE_web_api_S2_pic_1_4c1c3034f1.jpg",
       ImageEditPara:
         "Sharpen, upscale, denoise, and fix colors to transform low-resolution images into high-quality masterpieces",
     },
 
     {
       ImageEditHeader: "Al Photo Background Removal",
-      ImageEditUrl: "Hat.webp",
+      ImageEditUrl:
+        "https://plugins-media.makeupar.com/YCE_web_api_S2_pic_3_3bf4bfc7bd.jpg",
       ImageEditPara:
         "Remove background from photo with impeccable accuracy, ensuring the high quality of images.",
     },
     {
       ImageEditHeader: "AI Photo Background Change",
-      ImageEditUrl: "Scarves.webp",
+      ImageEditUrl:
+        "https://plugins-media.makeupar.com/yce_api_S2_ai_changebg_img_57816886e6.jpg",
       ImageEditPara:
         "Swap backgrounds with a single click, then use text prompts to control or generate a new setting. This is ideal for industries requiring rapid product image updates, such as e-commerce and digital content creation.",
     },
